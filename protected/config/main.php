@@ -1,4 +1,5 @@
 <?php
+Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
@@ -7,7 +8,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Web Application',
+	'name'=>'黄山折扣优惠',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -18,6 +19,15 @@ return array(
 		'application.components.*',
 	),
 
+
+    'theme'=>'bootstrap', // requires you to copy the theme under your themes directory
+    'modules'=>array(
+        'gii'=>array(
+            'generatorPaths'=>array(
+                'bootstrap.gii',
+            ),
+        ),
+    ),
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
 		/*
@@ -36,6 +46,11 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+
+        'bootstrap'=>array(
+            'class'=>'bootstrap.components.Bootstrap',
+        ),
+
         // uncomment the following to enable URLs in path-format
         'urlManager'=>array(
             'urlFormat'=>'path',
@@ -52,7 +67,6 @@ return array(
             ),
         ),
 		// uncomment the following to use a MySQL database
-
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=voucher',
 			'emulatePrepare' => true,

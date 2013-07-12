@@ -98,7 +98,7 @@ class Category extends CActiveRecord
 
     /***
      * Get all of the categories
-     * 
+     *
      * @return array
      */
     public static function getAll()

@@ -20,7 +20,15 @@ return array(
 			'password' => '',
 			'charset' => 'utf8',
 		),
-
+        /* uncomment the following to provide test database connection */
+        'testdb'=>array(
+            'class' => 'CDbConnection',
+            'connectionString' => 'mysql:host=localhost;dbname=voucher_test',
+            'emulatePrepare' => true,
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
+        ),
 		'log'=>array(
 			'class'=>'CLogRouter',
 			'routes'=>array(
