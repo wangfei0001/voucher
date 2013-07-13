@@ -21,6 +21,10 @@
  */
 class User extends CActiveRecord
 {
+    const USER_ROLE_MERCHANT = 1;
+
+    const USER_ROLE_APP = 2;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return User the static model class
@@ -46,7 +50,7 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('username, password, fname, lname, email, gender, fk_role, created_at, updated_at', 'required'),
+			array('username, password, email, fk_role', 'required'),
 			array('fname, lname, gender', 'numerical', 'integerOnly'=>true),
 			array('email', 'length', 'max'=>128),
 			array('fk_role, fk_country, fk_state, fk_city', 'length', 'max'=>20),
@@ -137,4 +141,17 @@ class User extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /***
+     * @return array
+     */
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+            )
+        );
+    }
 }

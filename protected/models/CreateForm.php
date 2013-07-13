@@ -57,10 +57,12 @@ class CreateForm extends CFormModel
         $user->username = $this->username;
         $user->email = $this->email;
         $user->password = $this->password;
+        $user->fk_role = User::USER_ROLE_MERCHANT;
 
         if($user->save()){
             return true;
         }else{
+            var_dump($user->getErrors());
             //$this->addError('password','Incorrect username or password.');
             return false;
         }
