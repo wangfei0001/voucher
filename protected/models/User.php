@@ -5,6 +5,8 @@
  *
  * The followings are the available columns in table 'users':
  * @property string $id_user
+ * @property integer $username
+ * @property integer $password
  * @property integer $fname
  * @property integer $lname
  * @property string $email
@@ -44,7 +46,7 @@ class User extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('fname, lname, email, gender, fk_role, created_at, updated_at', 'required'),
+			array('username, password, fname, lname, email, gender, fk_role, created_at, updated_at', 'required'),
 			array('fname, lname, gender', 'numerical', 'integerOnly'=>true),
 			array('email', 'length', 'max'=>128),
 			array('fk_role, fk_country, fk_state, fk_city', 'length', 'max'=>20),
@@ -76,6 +78,8 @@ class User extends CActiveRecord
 	{
 		return array(
 			'id_user' => 'Id User',
+            'username' => 'Username',
+            'password' => 'Password',
 			'fname' => 'Fname',
 			'lname' => 'Lname',
 			'email' => 'Email',
@@ -102,6 +106,10 @@ class User extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id_user',$this->id_user,true);
+
+        $criteria->compare('username',$this->username);
+
+        $criteria->compare('password',$this->password);
 
 		$criteria->compare('fname',$this->fname);
 

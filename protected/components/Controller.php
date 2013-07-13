@@ -19,5 +19,17 @@ class Controller extends CController
 	 * be assigned to {@link CBreadcrumbs::links}. Please refer to {@link CBreadcrumbs::links}
 	 * for more details on how to specify this property.
 	 */
-	public $breadcrumbs=array();
+	public $breadcrumbs=array('');
+
+
+
+    public function setFlash($messageType, $message)
+    {
+        return Yii::app()->user->setFlash($messageType, $message);
+    }
+
+//    public function getFlashs()
+//    {
+//        return Yii::app()->user->getFlashes();
+//    }
 }

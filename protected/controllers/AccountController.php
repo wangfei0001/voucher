@@ -14,7 +14,10 @@ class AccountController extends Controller
      */
     public function actionLogin()
     {
-        $model=new LoginForm;
+
+        $this->breadcrumbs = array('商家登录');
+
+        $model = new LoginForm;
         // collect user input data
         if(isset($_POST['LoginForm']))
         {
@@ -32,8 +35,27 @@ class AccountController extends Controller
      */
     public function actionCreate()
     {
+        $this->breadcrumbs = array('注册商家');
+
+        $model = new CreateForm();
+
+        if(isset($_POST['CreateForm'])){
+            $model->attributes=$_POST['CreateForm'];
+
+            if($model->validate()){
+
+                if($model->create()){
+                    die('ok');
+                }else{
+                    $this->setFlash('error', 'Can not create users.');
+                }
+            }
+        }
 
 
-        $this->render('create');
+
+
+
+        $this->render('create', array('model' => $model));
     }
 }
