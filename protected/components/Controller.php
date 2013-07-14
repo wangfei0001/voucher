@@ -22,6 +22,7 @@ class Controller extends CController
 	public $breadcrumbs=array('');
 
 
+    public $selectedMenu = '';
 
     public function setFlash($messageType, $message)
     {

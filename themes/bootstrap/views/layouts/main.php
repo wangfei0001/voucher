@@ -19,11 +19,12 @@
         array(
             'class'=>'bootstrap.widgets.TbMenu',
             'items'=>array(
-                array('label'=>'Home', 'url'=>array('/site/index')),
-                array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-                array('label'=>'Contact', 'url'=>array('/site/contact')),
-                array('label'=>'Login', 'url'=>array('/account/login'), 'visible'=>Yii::app()->user->isGuest),
-                array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/account/logout'), 'visible'=>!Yii::app()->user->isGuest)
+                array('label'=>'首页', 'url'=>array('/index/index')),
+                array('label'=>'关于我们', 'url'=>array('/index/about', 'view'=>'about')),
+                array('label'=>'联系我们', 'url'=>array('/index/contact')),
+                array('label'=>'登录', 'url'=>array('/account/login'), 'visible'=>Yii::app()->user->isGuest),
+                array('label'=>'我的账户', 'url'=>array('/account/index'), 'visible'=>!Yii::app()->user->isGuest),
+                array('label'=>'退出 ('.Yii::app()->user->name.')', 'url'=>array('/account/logout'), 'visible'=>!Yii::app()->user->isGuest)
             ),
         ),
     ),

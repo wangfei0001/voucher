@@ -67,4 +67,14 @@ class AccountController extends Controller
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
     }
+
+
+    public function actionIndex()
+    {
+        $this->layout = 'column2';
+
+        $this->selectedMenu = 'summary';
+
+        $this->render('index');
+    }
 }
