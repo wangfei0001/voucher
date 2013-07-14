@@ -37,3 +37,5 @@
 
 </div>
 <?php $this->endContent(); ?>
+
+<?php $this->renderPartial('//partials/modifyMerchant'); ?>

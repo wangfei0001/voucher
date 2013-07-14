@@ -75,6 +75,10 @@ class AccountController extends Controller
 
         $this->selectedMenu = 'summary';
 
+
+        $cs = Yii::app()->clientScript;
+        $cs->registerScript('my_script', "jQuery('#myModal').modal({'show':true});", CClientScript::POS_READY);
+
         $this->render('index');
     }
 }

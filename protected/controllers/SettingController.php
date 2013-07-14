@@ -13,9 +13,13 @@ class SettingController extends Controller
 
     public function actionStore()
     {
+
+        $model = new StoreForm();
+
         $this->selectedMenu = 'store';
 
-        $this->render('store');
+
+        $this->render('store', array('model' => $model));
     }
 
 
