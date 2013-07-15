@@ -13,10 +13,23 @@ class SettingController extends Controller
 
     public function actionStore()
     {
+        $this->checkMerchantProfileCompleted = false;
+        $this->selectedMenu = 'store';
 
         $model = new StoreForm();
 
-        $this->selectedMenu = 'store';
+        if(isset($_POST['StoreForm'])){
+            $model->attributes=$_POST['StoreForm'];
+
+            if($model->validate()){
+
+                if($model->create()){
+                    die('ok');
+                }else{
+                    $this->setFlash('error', 'Can not save store information.');
+                }
+            }
+        }
 
 
         $this->render('store', array('model' => $model));

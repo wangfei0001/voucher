@@ -52,10 +52,6 @@ class AccountController extends Controller
             }
         }
 
-
-
-
-
         $this->render('create', array('model' => $model));
     }
 
@@ -74,10 +70,6 @@ class AccountController extends Controller
         $this->layout = 'column2';
 
         $this->selectedMenu = 'summary';
-
-
-        $cs = Yii::app()->clientScript;
-        $cs->registerScript('my_script', "jQuery('#myModal').modal({'show':true});", CClientScript::POS_READY);
 
         $this->render('index');
     }

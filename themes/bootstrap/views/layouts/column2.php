@@ -38,4 +38,12 @@
 </div>
 <?php $this->endContent(); ?>
 
-<?php $this->renderPartial('//partials/modifyMerchant'); ?>
+<?php
+
+/***
+ * Check merchan profile
+ */
+if(Yii::app()->controller->checkMerchantProfileCompleted){
+    $this->renderPartial('//partials/modifyMerchant');
+}
+?>

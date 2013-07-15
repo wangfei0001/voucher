@@ -2,25 +2,27 @@
 
 <div class="modal-header">
     <a class="close" data-dismiss="modal">&times;</a>
-    <h4>Modal header</h4>
+    <h4>商家资料</h4>
 </div>
 
 <div class="modal-body">
-    <p>One fine body...</p>
+    <p>使用我们提供的服务之前，请务必填写完整您的商家信息，包括商铺厂商名称，联系人以及所在地址等。</p>
 </div>
 
 <div class="modal-footer">
     <?php $this->widget('bootstrap.widgets.TbButton', array(
     'type'=>'primary',
     'label'=>'Save changes',
-    'url'=>'#',
-    'htmlOptions'=>array('data-dismiss'=>'modal'),
+    'url'=>$this->createUrl('setting/store'),
+    //'htmlOptions'=>array('data-dismiss'=>'modal'),
 )); ?>
-    <?php $this->widget('bootstrap.widgets.TbButton', array(
-    'label'=>'Close',
-    'url'=>'#',
-    'htmlOptions'=>array('data-dismiss'=>'modal'),
-)); ?>
+    <?php
+//    $this->widget('bootstrap.widgets.TbButton', array(
+//    'label'=>'Close',
+//    'url'=>'#',
+//    'htmlOptions'=>array('data-dismiss'=>'modal'),
+//));
+    ?>
 </div>
 
 <?php $this->endWidget(); ?>

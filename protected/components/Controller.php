@@ -24,13 +24,25 @@ class Controller extends CController
 
     public $selectedMenu = '';
 
+    /***
+     * @var bool Do we need to check the merchant profile
+     */
+    public $checkMerchantProfileCompleted = true;
+
     public function setFlash($messageType, $message)
     {
         return Yii::app()->user->setFlash($messageType, $message);
     }
 
-//    public function getFlashs()
-//    {
-//        return Yii::app()->user->getFlashes();
-//    }
+
+    public function render($view,$data=null,$return=false)
+    {
+        if($this->checkMerchantProfileCompleted && !Yii::app()->user->isGuest){
+
+            $cs = Yii::app()->clientScript;
+            $cs->registerScript('my_script', "jQuery('#myModal').modal({'show':true});", CClientScript::POS_READY);
+
+        }
+        parent::render($view, $data, $return);
+    }
 }
