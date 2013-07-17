@@ -18,32 +18,35 @@
 
 <body>
 
-<?php $this->widget('bootstrap.widgets.TbNavbar',array(
-    'items'=>array(
-        array(
-            'class'=>'bootstrap.widgets.TbMenu',
-            'items'=>array(
-                array('label'=>'首页', 'url'=>array('/index/index')),
-                array('label'=>'关于我们', 'url'=>array('/index/about', 'view'=>'about')),
-                array('label'=>'联系我们', 'url'=>array('/index/contact')),
-                array('label'=>'登录', 'url'=>array('/account/login'), 'visible'=>Yii::app()->user->isGuest),
-                array('label'=>'我的账户', 'url'=>array('/account/index'), 'visible'=>!Yii::app()->user->isGuest),
-                array('label'=>'退出 ('.Yii::app()->user->name.')', 'url'=>array('/account/logout'), 'visible'=>!Yii::app()->user->isGuest)
+<?php
+    $this->widget('bootstrap.widgets.TbNavbar',array(
+        'items'=>array(
+            array(
+                'class'=>'bootstrap.widgets.TbMenu',
+                'items'=>array(
+                    array('label'=>'首页', 'url'=>array('/index/index')),
+                    array('label'=>'关于我们', 'url'=>array('/index/about')),
+                    array('label'=>'联系我们', 'url'=>array('/index/contact')),
+                    array('label'=>'登录', 'url'=>array('/account/login'), 'visible'=>Yii::app()->user->isGuest),
+                    array('label'=>'商家账户', 'url'=>array('/account/index'), 'visible'=>!Yii::app()->user->isGuest),
+                    array('label'=>'退出 ('.Yii::app()->user->name.')', 'url'=>array('/account/logout'), 'visible'=>!Yii::app()->user->isGuest)
+                ),
             ),
         ),
-    ),
-)); ?>
+    ));
+?>
 
 <div class="container" id="page">
 
-	<?php if(isset($this->breadcrumbs)):?>
+	<?php if(!(Yii::app()->controller->id == 'index' && Yii::app()->controller->action->id == 'index')):?>
+    <?php if(isset($this->breadcrumbs)):?>
 		<?php $this->widget('bootstrap.widgets.TbBreadcrumbs', array(
 			'links'=>$this->breadcrumbs,
 		)); ?><!-- breadcrumbs -->
-	<?php endif?>
+	<?php endif ?>
+    <?php endif ?>
 
     <?php
-
 
         $this->widget('bootstrap.widgets.TbAlert', array(
             'block'=>true, // display a larger alert block?
@@ -62,13 +65,19 @@
 
 	<div class="clear"></div>
 
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
+
 
 </div><!-- page -->
+
+<div id="footer">
+    <div id="content">
+
+    Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
+    All Rights Reserved.<br/>
+    <?php echo Yii::powered(); ?>
+
+    </div>
+</div><!-- footer -->
 
 </body>
 </html>

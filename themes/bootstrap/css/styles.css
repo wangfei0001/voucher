@@ -4,5 +4,10 @@
 
 #footer
 {
+    background-color: #f0f0f0;
+}
 
+#footer #content{
+    width: 1170px;
+    margin: 0px auto;
 }

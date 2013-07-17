@@ -15,4 +15,18 @@ class IndexController extends Controller
         $this->render('index');
     }
 
+    public function actionContact()
+    {
+        $this->breadcrumbs = array('联系我们');
+
+        $this->render('index');
+    }
+
+
+    public function actionAbout()
+    {
+        $this->breadcrumbs = array('关于我们');
+
+        $this->render('index');
+    }
 }
