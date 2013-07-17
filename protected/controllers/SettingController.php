@@ -13,7 +13,6 @@ class SettingController extends Controller
 
     public function actionStore()
     {
-        $this->checkMerchantProfileCompleted = false;
         $this->selectedMenu = 'store';
 
         $model = new StoreForm();

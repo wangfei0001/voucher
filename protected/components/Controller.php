@@ -27,7 +27,15 @@ class Controller extends CController
     /***
      * @var bool Do we need to check the merchant profile
      */
-    public $checkMerchantProfileCompleted = true;
+    public $renderMerchantNotice = true;
+
+    public function init()
+    {
+        if(!Yii::app()->user->isGuest && Yii::app()->user->merchantCompleted)
+            $this->renderMerchantNotice = false;
+
+        if(Yii::app()->user->isGuest) $this->renderMerchantNotice = false;
+    }
 
     public function setFlash($messageType, $message)
     {
@@ -35,14 +43,14 @@ class Controller extends CController
     }
 
 
-    public function render($view,$data=null,$return=false)
-    {
-        if($this->checkMerchantProfileCompleted && !Yii::app()->user->isGuest){
-
-            $cs = Yii::app()->clientScript;
-            $cs->registerScript('my_script', "jQuery('#myModal').modal({'show':true});", CClientScript::POS_READY);
-
-        }
-        parent::render($view, $data, $return);
-    }
+//    public function render($view,$data=null,$return=false)
+//    {
+//        if($this->renderMerchantNotice){
+//
+//            $cs = Yii::app()->clientScript;
+//            $cs->registerScript('my_script', "jQuery('#myModal').modal({'show':true});", CClientScript::POS_READY);
+//
+//        }
+//        parent::render($view, $data, $return);
+//    }
 }

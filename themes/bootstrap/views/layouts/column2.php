@@ -43,7 +43,12 @@
 /***
  * Check merchan profile
  */
-if(Yii::app()->controller->checkMerchantProfileCompleted){
+//var_dump(Yii::app()->controller->id);
+//var_dump(Yii::app()->controller->action->id);
+if(Yii::app()->controller->renderMerchantNotice &&
+    Yii::app()->controller->id != 'setting' &&
+        Yii::app()->controller->action != 'store'
+    ){
     $this->renderPartial('//partials/modifyMerchant');
 }
 ?>

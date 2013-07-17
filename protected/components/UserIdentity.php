@@ -25,6 +25,16 @@ class UserIdentity extends CUserIdentity
                 $this->errorCode=self::ERROR_PASSWORD_INVALID;
             }else{
                 $this->errorCode=self::ERROR_NONE;
+
+
+                //check if the merchant information is completed
+                if($user->getIsMerchant()){
+                    $completed = $this->checkMerchantInforCompleted($user->id_user);
+
+                    $this->setState('merchantCompleted', $completed);
+
+                }
+
                 return true;
             }
         }else{
@@ -35,4 +45,26 @@ class UserIdentity extends CUserIdentity
         return false;
 
 	}
+
+
+    /***
+     * @param $id_user
+     */
+    protected function checkMerchantInforCompleted($id_user)
+    {
+        $completed = false;
+
+        $merchant = Merchant::model()->find('fk_user = :id_user', array('id_user'=>$id_user));
+
+        if($merchant){
+            if(!empty($merchant->company)
+                && !empty($merchant->address1)
+                && !empty($merchant->phone)
+
+                ){
+                $completed = true;
+            }
+        }
+        return $completed;
+    }
 }

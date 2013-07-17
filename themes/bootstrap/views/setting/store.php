@@ -1,5 +1,29 @@
 <script type="text/javascript">
+    var geocoder = new google.maps.Geocoder();
 
+    function geocodePosition(pos) {
+         geocoder.geocode({
+                 latLng: pos
+         }, function(responses) {
+             if (responses && responses.length > 0) {
+                     updateMarkerAddress(responses[0].formatted_address);
+                 } else {
+                     updateMarkerAddress('Cannot determine address at this location.');
+                 }
+         });
+    }
+    function updateMarkerAddress(str) {
+        $('#StoreForm_address1').val(str);
+    }
+    function updateMarkerStatus(str) {
+     }
+
+    function updateMarkerPosition(latLng) {
+         document.getElementById('info').innerHTML = [
+                 latLng.lat(),
+                 latLng.lng()
+             ].join(', ');
+     }
 
     $(function(){
         var lat = $('#StoreForm_lat').val();
@@ -9,13 +33,38 @@
     });
 
     function initialize(lat,lng) {
+        var myLatlng = new google.maps.LatLng(lat,lng);
         var mapOptions = {
-            center: new google.maps.LatLng(lat,lng),
+            center: myLatlng,
             zoom: 16,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         var map = new google.maps.Map(document.getElementById("map_canvas"),
                 mapOptions);
+        var marker = new google.maps.Marker({
+            position: myLatlng,
+            map: map,
+            title: 'Hello World!',
+            draggable: true
+        });
+        // Update current position info.
+        updateMarkerPosition(myLatlng);
+        geocodePosition(myLatlng);
+
+        // Add dragging event listeners.
+        google.maps.event.addListener(marker, 'dragstart', function() {
+             //updateMarkerAddress('Dragging...');
+         });
+
+        google.maps.event.addListener(marker, 'drag', function() {
+             //updateMarkerStatus('Dragging...');
+            updateMarkerPosition(marker.getPosition());
+        });
+
+        google.maps.event.addListener(marker, 'dragend', function() {
+           //updateMarkerStatus('Drag ended');
+           geocodePosition(marker.getPosition());
+        });
     }
 </script>
 
@@ -35,6 +84,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->textFieldRow($model, 'address1', array('class'=>'span5')); ?>
     <?php //echo $form->textFieldRow($model, 'address2', array('class'=>'span5')); ?>
     <div id="map_canvas" style="width:100%; height:300px;"></div>
+    <div id="info"></div>
     <?php echo $form->textFieldRow($model, 'postcode', array('value'=>'245000')); ?>
     <?php echo $form->textFieldRow($model, 'phone'); ?>
     <?php echo $form->textFieldRow($model, 'fax'); ?>

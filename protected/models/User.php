@@ -154,4 +154,12 @@ class User extends CActiveRecord
             )
         );
     }
+
+    /***
+     * @return bool
+     */
+    public function getIsMerchant()
+    {
+        return $this->fk_role == self::USER_ROLE_MERCHANT ? true : false;
+    }
 }
