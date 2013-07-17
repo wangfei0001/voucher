@@ -15,15 +15,11 @@ class SettingController extends Controller
     {
         $this->selectedMenu = 'store';
 
-        $model = new StoreForm();
+        $model = new MerchantForm();
 
 
-
-        if(isset($_POST['StoreForm'])){
-            $model->attributes=$_POST['StoreForm'];
-
-            var_dump($_POST['StoreForm']);
-            var_dump($model->attributes);die('aaa');
+        if(isset($_POST['MerchantForm'])){
+            $model->attributes=$_POST['MerchantForm'];
 
             if($model->validate()){
 

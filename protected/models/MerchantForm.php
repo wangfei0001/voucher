@@ -6,13 +6,9 @@
  * Time: PM9:32
  * To change this template use File | Settings | File Templates.
  */
-class StoreForm extends CFormModel
+class MerchantForm extends CFormModel
 {
     public $company;
-
-    public $lat;
-
-    public $lng;
 
     public $address1;
 
@@ -30,12 +26,16 @@ class StoreForm extends CFormModel
 
     public $term_condition;
 
+    public $lat;
+
+    public $lng;
+
 
     public function rules()
     {
         return array(
             // username and password are required
-            array('company, address1, postcode, phone', 'required','message'=>'请输入{attribute}.'),
+            array('company, address1, postcode, phone, lat, lng', 'required','message'=>'请输入{attribute}.'),
         );
     }
 
@@ -87,6 +87,8 @@ class StoreForm extends CFormModel
     {
         if(!empty(Yii::app()->user->merchant)){
             $this->setAttributes(Yii::app()->user->merchant);
+//            var_dump($this->isAttributeSafe('lng'));
+//            var_dump($this->isAttributeSafe('company'));
         }
     }
 }

@@ -13,21 +13,24 @@
          });
     }
     function updateMarkerAddress(str) {
-        $('#StoreForm_address1').val(str);
+        $('#MerchantForm_address1').val(str);
     }
     function updateMarkerStatus(str) {
      }
 
     function updateMarkerPosition(latLng) {
-         document.getElementById('info').innerHTML = [
-                 latLng.lat(),
-                 latLng.lng()
-             ].join(', ');
-     }
+//         document.getElementById('info').innerHTML = [
+//                 latLng.lat(),
+//                 latLng.lng()
+//             ].join(', ');
+        $('#MerchantForm_lat').val(latLng.lat());
+        $('#MerchantForm_lng').val(latLng.lng());
+
+    }
 
     $(function(){
-        var lat = $('#StoreForm_lat').val();
-        var lng = $('#StoreForm_lng').val();
+        var lat = $('#MerchantForm_lat').val();
+        var lng = $('#MerchantForm_lng').val();
 
         initialize(lat,lng);
     });
@@ -76,7 +79,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <fieldset>
     <!--legend>Legend</legend-->
-    <?php echo $form->hiddenField($model, 'company'/*, array('hint'=>'In addition to freeform text, any HTML5 text-based input appears like so.')*/); ?>
+    <?php echo $form->textFieldRow($model, 'company'/*, array('hint'=>'In addition to freeform text, any HTML5 text-based input appears like so.')*/); ?>
     <?php //echo $form->dropDownListRow($model, 'dropdown', array('Something ...', '1', '2', '3', '4', '5')); ?>
     <?php //echo $form->dropDownListRow($model, 'multiDropdown', array('1', '2', '3', '4', '5'), array('multiple'=>true)); ?>
     <?php echo $form->hiddenField($model, 'lat', array('value'=>empty($model->lat)?29.706:$model->lat)); ?>
@@ -84,7 +87,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->textFieldRow($model, 'address1', array('class'=>'span5')); ?>
     <?php //echo $form->textFieldRow($model, 'address2', array('class'=>'span5')); ?>
     <div id="map_canvas" style="width:100%; height:300px;"></div>
-    <div id="info"></div>
     <?php echo $form->textFieldRow($model, 'postcode', array('value'=>'245000')); ?>
     <?php echo $form->textFieldRow($model, 'phone'); ?>
     <?php echo $form->textFieldRow($model, 'fax'); ?>
