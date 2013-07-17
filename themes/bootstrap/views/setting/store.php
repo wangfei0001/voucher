@@ -76,11 +76,11 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <fieldset>
     <!--legend>Legend</legend-->
-    <?php echo $form->textFieldRow($model, 'company'/*, array('hint'=>'In addition to freeform text, any HTML5 text-based input appears like so.')*/); ?>
+    <?php echo $form->hiddenField($model, 'company'/*, array('hint'=>'In addition to freeform text, any HTML5 text-based input appears like so.')*/); ?>
     <?php //echo $form->dropDownListRow($model, 'dropdown', array('Something ...', '1', '2', '3', '4', '5')); ?>
     <?php //echo $form->dropDownListRow($model, 'multiDropdown', array('1', '2', '3', '4', '5'), array('multiple'=>true)); ?>
-    <?php echo $form->hiddenField($model, 'lat', array('type'=>'hidden', 'value'=>29.706)); ?>
-    <?php echo $form->hiddenField($model, 'lng', array('type'=>'hidden', 'value'=>118.318)); ?>
+    <?php echo $form->hiddenField($model, 'lat', array('value'=>empty($model->lat)?29.706:$model->lat)); ?>
+    <?php echo $form->hiddenField($model, 'lng', array('value'=>empty($model->lng)?118.318:$model->lng)); ?>
     <?php echo $form->textFieldRow($model, 'address1', array('class'=>'span5')); ?>
     <?php //echo $form->textFieldRow($model, 'address2', array('class'=>'span5')); ?>
     <div id="map_canvas" style="width:100%; height:300px;"></div>

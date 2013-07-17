@@ -12,7 +12,7 @@
 <div class="modal-footer">
     <?php $this->widget('bootstrap.widgets.TbButton', array(
     'type'=>'primary',
-    'label'=>'Save changes',
+    'label'=>'现在填写',
     'url'=>$this->createUrl('setting/store'),
     //'htmlOptions'=>array('data-dismiss'=>'modal'),
 )); ?>

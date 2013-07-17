@@ -31,10 +31,13 @@ class Controller extends CController
 
     public function init()
     {
-        if(!Yii::app()->user->isGuest && Yii::app()->user->merchantCompleted)
+        $user = Yii::app()->user;
+
+        if($user->isGuest) $this->renderMerchantNotice = false;
+
+        if(!$user->isGuest && isset($user->merchantCompleted) && $user->merchantCompleted)
             $this->renderMerchantNotice = false;
 
-        if(Yii::app()->user->isGuest) $this->renderMerchantNotice = false;
     }
 
     public function setFlash($messageType, $message)

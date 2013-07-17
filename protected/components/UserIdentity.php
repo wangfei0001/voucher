@@ -7,6 +7,8 @@
  */
 class UserIdentity extends CUserIdentity
 {
+
+    protected $_id;
 	/**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password
@@ -29,11 +31,9 @@ class UserIdentity extends CUserIdentity
 
                 //check if the merchant information is completed
                 if($user->getIsMerchant()){
-                    $completed = $this->checkMerchantInforCompleted($user->id_user);
-
-                    $this->setState('merchantCompleted', $completed);
-
+                    $this->checkMerchantInforCompleted($user->id_user);
                 }
+                $this->_id = $user->id_user;
 
                 return true;
             }
@@ -45,6 +45,11 @@ class UserIdentity extends CUserIdentity
         return false;
 
 	}
+
+    public function getId()
+    {
+        return $this->_id;
+    }
 
 
     /***
@@ -62,8 +67,11 @@ class UserIdentity extends CUserIdentity
                 && !empty($merchant->phone)
 
                 ){
+                $this->setState('merchantCompleted', true);
+
                 $completed = true;
             }
+            $this->setState('merchant', $merchant->attributes);
         }
         return $completed;
     }

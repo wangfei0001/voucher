@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `favourites` (
 CREATE TABLE IF NOT EXISTS `merchants` (
   `id_merchant` bigint(20) NOT NULL AUTO_INCREMENT,
   `company` varchar(256) COLLATE utf8_unicode_ci NOT NULL,
-  `lag` float(10,3) DEFAULT NULL,
+  `lat` float(10,3) DEFAULT NULL,
   `lng` float(10,3) DEFAULT NULL,
   `address1` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
   `address2` varchar(1024) COLLATE utf8_unicode_ci DEFAULT NULL,

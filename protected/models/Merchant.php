@@ -47,9 +47,9 @@ class Merchant extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('company, fk_user, address1, created_at, updated_at', 'required'),
+			array('company, fk_user, address1, phone', 'required'),
 			array('postcode', 'numerical', 'integerOnly'=>true),
-			array('lag, lng', 'numerical'),
+			array('lat, lng', 'numerical'),
 			array('company', 'length', 'max'=>256),
 			array('fk_user', 'length', 'max'=>20),
 			array('address1, address2', 'length', 'max'=>1024),
@@ -58,7 +58,7 @@ class Merchant extends CActiveRecord
 			array('term_condition', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id_merchant, company, fk_user, lag, lng, address1, address2, postcode, phone, fax, website, logo, term_condition, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id_merchant, company, fk_user, lat, lng, address1, address2, postcode, phone, fax, website, logo, term_condition, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -83,7 +83,7 @@ class Merchant extends CActiveRecord
 			'id_merchant' => 'Id Merchant',
 			'company' => 'Company',
 			'fk_user' => 'Fk User',
-			'lag' => 'Lag',
+			'lat' => 'Lat',
 			'lng' => 'Lng',
 			'address1' => 'Address1',
 			'address2' => 'Address2',
@@ -115,7 +115,7 @@ class Merchant extends CActiveRecord
 
 		$criteria->compare('fk_user',$this->fk_user,true);
 
-		$criteria->compare('lag',$this->lag);
+		$criteria->compare('lat',$this->lat);
 
 		$criteria->compare('lng',$this->lng);
 
@@ -143,4 +143,30 @@ class Merchant extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+
+    /***
+     * @return array
+     */
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+            )
+        );
+    }
+
+    public function save($runValidation = true, $attributes = NULL)
+    {
+        $merchant = parent::save($runValidation, $attributes);
+        //update session
+        if($merchant){
+            Yii::app()->user->setState('merchant', $this->attributes);
+            Yii::app()->user->setState('merchantCompleted', true);
+        }
+        //var_dump($this->attributes);die();
+        return $merchant;
+    }
 }

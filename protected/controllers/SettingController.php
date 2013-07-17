@@ -17,13 +17,18 @@ class SettingController extends Controller
 
         $model = new StoreForm();
 
+
+
         if(isset($_POST['StoreForm'])){
             $model->attributes=$_POST['StoreForm'];
 
+            var_dump($_POST['StoreForm']);
+            var_dump($model->attributes);die('aaa');
+
             if($model->validate()){
 
-                if($model->create()){
-                    die('ok');
+                if($model->save()){
+
                 }else{
                     $this->setFlash('error', 'Can not save store information.');
                 }
