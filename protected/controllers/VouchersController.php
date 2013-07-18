@@ -21,7 +21,7 @@ class VouchersController extends Controller
         $model = Voucher::model();
 
         $condition = 'fk_merchant =' . Yii::app()->user->merchant['id_merchant'];
-        $limit = 5;
+        $limit = 25;
         $totalItems = $model->count($condition);
 
         $criteria = new CDbCriteria(array(
@@ -43,10 +43,21 @@ class VouchersController extends Controller
         foreach($rows as $row){
             $row = $row->attributes;
             $row['id'] = $row['id_voucher'];
+            $row['name'] = CHtml::link($row['name'], array("vouchers/view","id"=>$row['id']));
             unset($row['id_voucher']);
             $vouchers[] = $row;
         }
-
         $this->render('list', array('vouchers' => $vouchers, 'pages'=>$pages));
+    }
+
+
+    /***
+     *
+     */
+    public function actionView()
+    {
+
+
+        $this->render('view');
     }
 }
