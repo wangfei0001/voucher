@@ -11,3 +11,11 @@
     width: 1170px;
     margin: 0px auto;
 }
+
+
+
+#map_canvas{
+    margin: 10px 0px;
+    width: 100%;
+    height: 300px;
+}

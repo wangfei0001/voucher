@@ -13,6 +13,8 @@ class SettingController extends Controller
 
     public function actionStore()
     {
+        $this->breadcrumbs = array('商铺信息');
+
         $this->selectedMenu = 'store';
 
         $model = new MerchantForm();

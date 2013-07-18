@@ -17,6 +17,36 @@ class VouchersController extends Controller
 
         $this->selectedMenu = 'list';
 
-        $this->render('list');
+
+        $model = Voucher::model();
+
+        $condition = 'fk_merchant =' . Yii::app()->user->merchant['id_merchant'];
+        $limit = 5;
+        $totalItems = $model->count($condition);
+
+        $criteria = new CDbCriteria(array(
+            'condition' => $condition,
+            'order' => 'created_at DESC',
+            'limit' => $limit,
+            'offset' => $totalItems - $limit // if offset less, thah 0 - it starts from the beginning
+        ));
+
+
+        $pages=new CPagination($totalItems);     // results per page
+        $pages->pageSize=$limit;
+        $pages->applyLimit($criteria);
+
+        $rows = $model->findAll($criteria);
+
+        $vouchers = array();
+
+        foreach($rows as $row){
+            $row = $row->attributes;
+            $row['id'] = $row['id_voucher'];
+            unset($row['id_voucher']);
+            $vouchers[] = $row;
+        }
+
+        $this->render('list', array('vouchers' => $vouchers, 'pages'=>$pages));
     }
 }

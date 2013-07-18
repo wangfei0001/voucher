@@ -86,7 +86,10 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->hiddenField($model, 'lng', array('value'=>empty($model->lng)?118.318:$model->lng)); ?>
     <?php echo $form->textFieldRow($model, 'address1', array('class'=>'span5')); ?>
     <?php //echo $form->textFieldRow($model, 'address2', array('class'=>'span5')); ?>
-    <div id="map_canvas" style="width:100%; height:300px;"></div>
+    <div id="map_canvas">
+
+
+    </div>
     <?php echo $form->textFieldRow($model, 'postcode', array('value'=>'245000')); ?>
     <?php echo $form->textFieldRow($model, 'phone'); ?>
     <?php echo $form->textFieldRow($model, 'fax'); ?>
@@ -101,8 +104,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 </fieldset>
 
 <div class="form-actions">
-    <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'Submit')); ?>
-    <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'reset', 'label'=>'Reset')); ?>
+    <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType'=>'submit', 'type'=>'primary', 'label'=>'保存')); ?>
 </div>
 
 <?php $this->endWidget(); ?>
