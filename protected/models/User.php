@@ -16,6 +16,7 @@
  * @property string $fk_country
  * @property string $fk_state
  * @property string $fk_city
+ * @property string $status
  * @property string $created_at
  * @property string $updated_at
  */
@@ -93,6 +94,7 @@ class User extends CActiveRecord
 			'fk_country' => 'Fk Country',
 			'fk_state' => 'Fk State',
 			'fk_city' => 'Fk City',
+            'status'   =>   'status',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -132,6 +134,8 @@ class User extends CActiveRecord
 		$criteria->compare('fk_state',$this->fk_state,true);
 
 		$criteria->compare('fk_city',$this->fk_city,true);
+
+        $criteria->compare('status',$this->status,true);
 
 		$criteria->compare('created_at',$this->created_at,true);
 

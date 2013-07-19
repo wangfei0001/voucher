@@ -11,6 +11,7 @@
  * @property string $start_time
  * @property string $end_time
  * @property integer $reusable
+ * @property integer $status
  * @property string $created_at
  * @property string $updated_at
  */
@@ -41,7 +42,7 @@ class Voucher extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, fk_merchant, created_at, updated_at', 'required'),
+			array('name, fk_merchant, status, created_at, updated_at', 'required'),
 			array('reusable', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>128),
 			array('fk_merchant', 'length', 'max'=>20),
@@ -78,6 +79,7 @@ class Voucher extends CActiveRecord
 			'start_time' => 'Start Time',
 			'end_time' => 'End Time',
 			'reusable' => 'Reusable',
+            'status'   =>   'status',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -107,6 +109,8 @@ class Voucher extends CActiveRecord
 		$criteria->compare('end_time',$this->end_time,true);
 
 		$criteria->compare('reusable',$this->reusable);
+
+        $criteria->compare('status',$this->status);
 
 		$criteria->compare('created_at',$this->created_at,true);
 

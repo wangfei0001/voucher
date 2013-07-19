@@ -1,7 +1,9 @@
 <script type="text/javascript">
 
     $(function(){
-        $('.datepicker').datepicker();
+        var checkout = $('.datepicker').datepicker().on('changeDate', function(ev){
+            checkout.datepicker('hide');
+        });
     });
 
 

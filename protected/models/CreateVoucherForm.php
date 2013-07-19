@@ -20,6 +20,12 @@ class CreateVoucherForm extends CFormModel
     public $reusable;
 
 
+    public function init()
+    {
+        $this->term_condition = Yii::app()->user->merchant['term_condition'];
+    }
+
+
     public function rules()
     {
         return array(
