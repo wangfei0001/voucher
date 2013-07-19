@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/styles.css" />
 
+
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <script type="text/javascript"
@@ -14,6 +15,9 @@
     </script>
 
 	<?php Yii::app()->bootstrap->register(); ?>
+    <!--cript src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
+    <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/datepicker.css" />
+    <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap-datepicker.js"></script>
 </head>
 
 <body>

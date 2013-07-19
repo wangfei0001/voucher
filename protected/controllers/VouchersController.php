@@ -51,6 +51,29 @@ class VouchersController extends Controller
     }
 
 
+    public function actionCreate()
+    {
+
+        $model = new CreateVoucherForm();
+
+
+        if(isset($_POST['CreateVoucherForm'])){
+            $model->attributes=$_POST['CreateVoucherForm'];
+
+            if($model->validate()){
+
+                if($model->create()){
+                    die('ok');
+                }else{
+                    $this->setFlash('error', 'Can not create voucher.');
+                }
+            }
+        }
+
+        $this->render('create', array('model'=>$model));
+    }
+
+
     /***
      *
      */

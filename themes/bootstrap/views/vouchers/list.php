@@ -9,6 +9,14 @@
 
 $gridDataProvider = new CArrayDataProvider($vouchers);
 
+$url =  Yii::app()->createUrl('vouchers/create');
+
+$this->widget('bootstrap.widgets.TbButton', array(
+    'label'=>'发布',
+    'type'=>'primary', // null, 'primary', 'info', 'success', 'warning', 'danger' or 'inverse'
+    'size'=>'normal', // null, 'large', 'small' or 'mini'
+    'url'=> $url
+));
 
 $this->widget('bootstrap.widgets.TbGridView', array(
     'type'=>'Striped',
