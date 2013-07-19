@@ -21,16 +21,24 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 <?php echo $form->textFieldRow($model, 'end_time', array('class'=>'span3 datepicker','data-date-format'=>"yyyy-mm-dd",'readonly'=>'readonly')); ?>
 <?php echo $form->textAreaRow($model, 'term_condition', array('class'=>'span8','rows'=>6)); ?>
 <?php echo $form->checkboxRow($model, 'reusable'); ?>
+<div class="span2">
 <?php
 
 $this->widget('bootstrap.widgets.TbButton', array(
     'buttonType' => 'submit',
-    'label'=>'登录',
-
+    'label'=>'发布',
+    'type'=>'primary',
     'size'=>'small', // null, 'large', 'small' or 'mini'
 ));
+?>
+</div>
+<?php
 
-
+$this->widget('bootstrap.widgets.TbButton', array(
+    'buttonType' => 'button',
+    'label'=>'预览',
+    'size'=>'small', // null, 'large', 'small' or 'mini'
+));
 ?>
 
 <?php $this->endWidget(); ?>

@@ -17,6 +17,16 @@
  */
 class Voucher extends CActiveRecord
 {
+
+    const VOUCHER_STATUS_APPROVED = 'approved';
+
+    const VOUCHER_STATUS_EXPIRED = 'expired';
+
+    const VOUCHER_STATUS_INIT   =   'init';
+
+
+
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return Voucher the static model class
@@ -42,7 +52,7 @@ class Voucher extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, fk_merchant, status, created_at, updated_at', 'required'),
+			array('name, fk_merchant, status', 'required'),
 			array('reusable', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>128),
 			array('fk_merchant', 'length', 'max'=>20),
@@ -120,4 +130,17 @@ class Voucher extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /***
+     * @return array
+     */
+    public function behaviors(){
+        return array(
+            'CTimestampBehavior' => array(
+                'class' => 'zii.behaviors.CTimestampBehavior',
+                'createAttribute' => 'created_at',
+                'updateAttribute' => 'updated_at',
+            )
+        );
+    }
 }

@@ -17,6 +17,8 @@ class VouchersController extends Controller
 
         $this->selectedMenu = 'list';
 
+        $this->breadcrumbs = array('发布的折扣');
+
 
         $model = Voucher::model();
 
@@ -51,8 +53,13 @@ class VouchersController extends Controller
     }
 
 
+    /***
+     *
+     */
     public function actionCreate()
     {
+
+        $this->breadcrumbs = array('发布新的优惠券');
 
         $model = new CreateVoucherForm();
 
@@ -68,6 +75,34 @@ class VouchersController extends Controller
                     $this->setFlash('error', 'Can not create voucher.');
                 }
             }
+        }
+
+        $this->render('create', array('model'=>$model));
+    }
+
+
+    public function actionEdit()
+    {
+        $id = $this->getParam('id');
+        if(empty($id)){
+            //error
+
+        }
+
+        $this->breadcrumbs = array('编辑优惠券');
+
+        $model = new CreateVoucherForm();
+
+        $result = $model->loadVoucher($id);
+        if(!$result){
+            die('we can\'t find this voucher');
+        }
+
+
+        if(isset($_POST['CreateVoucherForm'])){
+            $model->attributes=$_POST['CreateVoucherForm'];
+
+
         }
 
         $this->render('create', array('model'=>$model));

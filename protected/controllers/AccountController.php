@@ -65,6 +65,10 @@ class AccountController extends Controller
     }
 
 
+
+    /***
+     *
+     */
     public function actionIndex()
     {
         $this->layout = 'column2';

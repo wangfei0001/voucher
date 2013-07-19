@@ -32,7 +32,7 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'template' => '{update}{delete}',
             'htmlOptions'=>array('style'=>'width: 50px'),
             'viewButtonUrl'=>null,
-            'updateButtonUrl'=>null,
+            'updateButtonUrl'=>'Yii::app()->controller->createUrl("edit",array("id"=>$data["id"]))',
             'deleteButtonUrl'=>null,
         ),
     ),

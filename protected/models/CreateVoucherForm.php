@@ -20,11 +20,29 @@ class CreateVoucherForm extends CFormModel
     public $reusable;
 
 
+
     public function init()
     {
         $this->term_condition = Yii::app()->user->merchant['term_condition'];
+
+        $this->reusable = true;
+
+        $this->start_time = date('Y-m-d');
     }
 
+
+    public function loadVoucher($id = null)
+    {
+        if(!empty($id)){
+            $data = Voucher::model()->find('id_voucher = :id_voucher', array('id_voucher' => $id));
+            if($data){
+                $this->attributes = $data->attributes;
+
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function rules()
     {
@@ -46,7 +64,7 @@ class CreateVoucherForm extends CFormModel
             'term_condition'=>'使用条款限制',
             'start_time'=>'生效时间',
             'end_time'=>'过期时间',
-            'reusable'=>'是否可以重复使用'
+            'reusable'=>'无使用次数限制'
         );
     }
 
@@ -62,6 +80,9 @@ class CreateVoucherForm extends CFormModel
             if(strtotime($this->end_time) < strtotime($this->start_time)){
                 $this->addError($attribute, '生效时间设置错误');
             }
+        }
+        if(strtotime($this->start_time) < time()){
+            $this->addError($attribute, '生效时间设置错误');
         }
 
     }
@@ -83,8 +104,32 @@ class CreateVoucherForm extends CFormModel
 
     }
 
+
+
+    /***
+     * @return mixed
+     */
     public function create()
     {
-        return false;
+        //we need to check if the merchant still can created the voucher
+
+        $voucher = new Voucher();
+
+        $voucher->attributes = $this->attributes;
+
+        $voucher->fk_merchant = Yii::app()->user->merchant['id_merchant'];
+
+        $voucher->status = Voucher::VOUCHER_STATUS_APPROVED;
+
+
+        $result = $voucher->save();
+
+        if($result){
+
+        }else{
+            var_dump($voucher->getErrors());
+        }
+
+        return $result;
     }
 }
