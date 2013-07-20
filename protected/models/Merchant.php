@@ -7,6 +7,7 @@
  * @property string $id_merchant
  * @property string $company
  * @property string $fk_user
+ * @property string $fk_category
  * @property double $lag
  * @property double $lng
  * @property string $address1
@@ -47,7 +48,7 @@ class Merchant extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('company, fk_user, address1, phone', 'required'),
+			array('company, fk_user, fk_category, address1, phone', 'required'),
 			array('postcode', 'numerical', 'integerOnly'=>true),
 			array('lat, lng', 'numerical'),
 			array('company', 'length', 'max'=>256),
@@ -83,6 +84,7 @@ class Merchant extends CActiveRecord
 			'id_merchant' => 'Id Merchant',
 			'company' => 'Company',
 			'fk_user' => 'Fk User',
+            'fk_category' => 'FK Category',
 			'lat' => 'Lat',
 			'lng' => 'Lng',
 			'address1' => 'Address1',
@@ -114,6 +116,8 @@ class Merchant extends CActiveRecord
 		$criteria->compare('company',$this->company,true);
 
 		$criteria->compare('fk_user',$this->fk_user,true);
+
+        $criteria->compare('fk_category',$this->fk_category,true);
 
 		$criteria->compare('lat',$this->lat);
 

@@ -10,6 +10,8 @@ class MerchantForm extends CFormModel
 {
     public $company;
 
+    public $fk_category;
+
     public $address1;
 
     //public $address2;
@@ -35,7 +37,7 @@ class MerchantForm extends CFormModel
     {
         return array(
             // username and password are required
-            array('company, address1, postcode, phone,lat,lng', 'required','message'=>'请输入{attribute}.'),
+            array('company, address1, fk_category, postcode, phone,lat,lng', 'required','message'=>'请输入{attribute}.'),
             array('fax','safe'),
             array('website','safe'),
             array('term_condition','safe')
@@ -46,7 +48,7 @@ class MerchantForm extends CFormModel
     {
         return array(
             'company'=>'商家名称',
-//            'lat'   =>  'lat',
+            'fk_category'   =>  '所属行业',
 //            'lng'   =>  'lng',
             'address1'=>'地址',
             //'address2'=>'地址2',

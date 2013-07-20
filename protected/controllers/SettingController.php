@@ -19,7 +19,6 @@ class SettingController extends Controller
 
         $model = new MerchantForm();
 
-
         if(isset($_POST['MerchantForm'])){
             $model->attributes=$_POST['MerchantForm'];
 
@@ -35,7 +34,9 @@ class SettingController extends Controller
         }
 
 
-        $this->render('store', array('model' => $model));
+        $this->render('store', array('model' => $model,
+            'categories' => Category::getAllForDropdown()
+        ));
     }
 
 

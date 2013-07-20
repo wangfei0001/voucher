@@ -115,4 +115,15 @@ class Category extends CActiveRecord
         }
         return $return;
     }
+
+
+    public static function getAllForDropdown()
+    {
+        $return = array();
+        $categories = self::getAll();
+        foreach($categories as $key=>$val){
+            $return[$val['id_category']] = $val['name'];
+        }
+        return $return;
+    }
 }
