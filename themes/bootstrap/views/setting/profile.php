@@ -1,8 +1,8 @@
-<?php
-/**
- * Created by JetBrains PhpStorm.
- * User: wangfei0001
- * Date: 13-7-14
- * Time: PM9:20
- * To change this template use File | Settings | File Templates.
- */
+<?php $this->widget('bootstrap.widgets.TbTabs', array(
+    'type'=>'tabs',
+    'placement'=>'above', // 'above', 'right', 'below' or 'left'
+    'tabs'=>array(
+        array('label'=>'个人资料', 'content'=>'<p>I\'m in Section 1.</p>', 'active'=>true),
+        array('label'=>'通知设置', 'content'=>'<p>Howdy, I\'m in Section 2.</p>'),
+    ),
+)); ?>
