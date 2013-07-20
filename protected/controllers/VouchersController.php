@@ -12,10 +12,18 @@ class VouchersController extends Controller
     public $layout = 'column2';
 
 
+    public function init()
+    {
+        $this->selectedMenu = 'list';
+
+        parent::init();
+    }
+
+
     public function actionList()
     {
 
-        $this->selectedMenu = 'list';
+
 
         $this->breadcrumbs = array('发布的折扣');
 
@@ -77,15 +85,20 @@ class VouchersController extends Controller
             }
         }
 
-        $this->render('create', array('model'=>$model));
+        $this->render('edit', array('model'=>$model));
     }
 
 
+
+    /***
+     *
+     */
     public function actionEdit()
     {
         $id = $this->getParam('id');
         if(empty($id)){
             //error
+            die('error');
 
         }
 
@@ -103,9 +116,19 @@ class VouchersController extends Controller
             $model->attributes=$_POST['CreateVoucherForm'];
 
 
+            if($model->validate()){
+
+                if($model->save()){
+                    $this->setFlash('success', '已经修改优惠券信息');
+                }else{
+                    $this->setFlash('error','无法保存优惠券');
+                }
+
+            }
+
         }
 
-        $this->render('create', array('model'=>$model));
+        $this->render('edit', array('model'=>$model));
     }
 
 

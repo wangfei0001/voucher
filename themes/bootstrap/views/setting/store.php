@@ -94,7 +94,6 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->textFieldRow($model, 'phone'); ?>
     <?php echo $form->textFieldRow($model, 'fax'); ?>
     <?php echo $form->textFieldRow($model, 'website',array('placeholder'=>'http://')); ?>
-    <?php echo $form->textFieldRow($model, 'fax'); ?>
 
 
     <?php echo $form->textAreaRow($model, 'term_condition', array('class'=>'span5', 'rows'=>5)); ?>

@@ -1,20 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 4.0.4.1
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Jul 12, 2013 at 01:16 PM
--- Server version: 5.6.11
--- PHP Version: 5.4.15
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
---
--- Database: `voucher`
---
-CREATE DATABASE IF NOT EXISTS `voucher` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `voucher`;
 
 -- --------------------------------------------------------
 

@@ -26,6 +26,7 @@ class SettingController extends Controller
             if($model->validate()){
 
                 if($model->save()){
+                    $this->setFlash('success', '已经成功保存信息');
 
                 }else{
                     $this->setFlash('error', 'Can not save store information.');

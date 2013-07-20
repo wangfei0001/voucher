@@ -18,10 +18,9 @@
                 'stacked'=>false, // whether this is a stacked menu
                 'items'=>array(
                     array('label'=>'账户概要', 'url'=>$this->createUrl('account/index'), 'active'=>Yii::app()->controller->selectedMenu == 'summary'? true:false),
-                    array('label'=>'发布的折扣', 'url'=>$this->createUrl('vouchers/list'), 'active'=>Yii::app()->controller->selectedMenu == 'list'? true:false),
+                    array('label'=>'发布的优惠券', 'url'=>$this->createUrl('vouchers/list'), 'active'=>Yii::app()->controller->selectedMenu == 'list'? true:false),
                     array('label'=>'商铺信息', 'url'=>$this->createUrl('setting/store'), 'active'=>Yii::app()->controller->selectedMenu == 'store'? true:false),
                     array('label'=>'设置', 'url'=>$this->createUrl('setting/profile'), 'active'=>Yii::app()->controller->selectedMenu == 'profile'? true:false),
-                    array('label'=>'Messages', 'url'=>'#'),
                 ),
             ));
 

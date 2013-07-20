@@ -19,6 +19,8 @@ class CreateVoucherForm extends CFormModel
 
     public $reusable;
 
+    public $voucher;
+
 
 
     public function init()
@@ -38,6 +40,7 @@ class CreateVoucherForm extends CFormModel
             if($data){
                 $this->attributes = $data->attributes;
 
+                $this->voucher = $data;
                 return true;
             }
         }
@@ -50,7 +53,9 @@ class CreateVoucherForm extends CFormModel
             // username and password are required
             array('name', 'required'),
             array('start_time','checkStartTime'),
-            array('end_time','checkEndTime')
+            array('end_time','checkEndTime'),
+            array('term_condition', 'safe'),
+            array('reusable', 'safe')
         );
     }
 
@@ -64,7 +69,8 @@ class CreateVoucherForm extends CFormModel
             'term_condition'=>'使用条款限制',
             'start_time'=>'生效时间',
             'end_time'=>'过期时间',
-            'reusable'=>'无使用次数限制'
+            'reusable'=>'无使用次数限制',
+            'status'=>'状态'
         );
     }
 
@@ -107,27 +113,33 @@ class CreateVoucherForm extends CFormModel
 
 
     /***
+     * Create
+     *
      * @return mixed
      */
-    public function create()
+    public function save()
     {
         //we need to check if the merchant still can created the voucher
 
-        $voucher = new Voucher();
+        $save = empty($this->voucher) ? false : true;
 
-        $voucher->attributes = $this->attributes;
+        if(!$save) $this->voucher = new Voucher();
 
-        $voucher->fk_merchant = Yii::app()->user->merchant['id_merchant'];
+        $this->voucher->attributes = $this->attributes;
 
-        $voucher->status = Voucher::VOUCHER_STATUS_APPROVED;
+        $this->voucher->fk_merchant = Yii::app()->user->merchant['id_merchant'];
+
+        if(!$save)
+            $this->voucher->status = Voucher::VOUCHER_STATUS_APPROVED;
+        //else
+        //    $voucher->status = $this->voucher->status;
 
 
-        $result = $voucher->save();
+        $result = $this->voucher->save();
 
-        if($result){
+        if(!$result){
 
-        }else{
-            var_dump($voucher->getErrors());
+            var_dump($this->voucher->getErrors());
         }
 
         return $result;

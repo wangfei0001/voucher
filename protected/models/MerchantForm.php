@@ -35,7 +35,10 @@ class MerchantForm extends CFormModel
     {
         return array(
             // username and password are required
-            array('company, address1, postcode, phone, lat, lng', 'required','message'=>'请输入{attribute}.'),
+            array('company, address1, postcode, phone,lat,lng', 'required','message'=>'请输入{attribute}.'),
+            array('fax','safe'),
+            array('website','safe'),
+            array('term_condition','safe')
         );
     }
 
