@@ -45,6 +45,37 @@ class SettingController extends Controller
     {
         $this->selectedMenu = 'profile';
 
-        $this->render('profile');
+
+        $model = new UserForm();
+
+
+
+
+        if(isset($_POST['UserForm'])){
+
+            $model->attributes = $_POST['UserForm'];
+
+            if($model->Validate()){
+                if($model->save()){
+                    $this->setFlash('success', '成功保存信息');
+                }else{
+                    $this->setFlash('error', 'Database error. can not save');
+                }
+
+            }
+        }
+
+        $model->load(Yii::app()->user->id);
+
+        $this->render('profile', array('model' => $model,
+            'genders'   =>  array(
+                '1' =>  '男',
+                '2' =>  '女'
+            ),
+            'status'    =>  array(
+                'active'    =>  '有效',
+                'suspend'   =>  '禁用'
+            )
+        ));
     }
 }

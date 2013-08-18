@@ -9,6 +9,8 @@
 class CreateVoucherForm extends CFormModel
 {
 
+    public $id_voucher;
+
     public $name;
 
     public $term_condition;
@@ -20,6 +22,8 @@ class CreateVoucherForm extends CFormModel
     public $reusable;
 
     public $voucher;
+
+    public $image;
 
 
 
@@ -33,6 +37,12 @@ class CreateVoucherForm extends CFormModel
     }
 
 
+    /***
+     * load voucher
+     *
+     * @param null $id
+     * @return bool
+     */
     public function loadVoucher($id = null)
     {
         if(!empty($id)){
@@ -41,6 +51,7 @@ class CreateVoucherForm extends CFormModel
                 $this->attributes = $data->attributes;
 
                 $this->voucher = $data;
+
                 return true;
             }
         }
@@ -55,7 +66,9 @@ class CreateVoucherForm extends CFormModel
             array('start_time','checkStartTime'),
             array('end_time','checkEndTime'),
             array('term_condition', 'safe'),
-            array('reusable', 'safe')
+            array('reusable', 'safe'),
+            array('id_voucher', 'safe'),
+            array('image', 'file', 'allowEmpty' => true,'maxSize' => 102400, 'types' => 'jpg, jpeg, png'),
         );
     }
 
@@ -70,7 +83,8 @@ class CreateVoucherForm extends CFormModel
             'start_time'=>'生效时间',
             'end_time'=>'过期时间',
             'reusable'=>'无使用次数限制',
-            'status'=>'状态'
+            'status'=>'状态',
+            'image' =>  '优惠券封面'
         );
     }
 

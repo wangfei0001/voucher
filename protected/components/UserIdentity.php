@@ -8,7 +8,12 @@
 class UserIdentity extends CUserIdentity
 {
 
+    /***
+     * @var
+     */
     protected $_id;
+
+
 	/**
 	 * Authenticates a user.
 	 * The example implementation makes sure if the username and password

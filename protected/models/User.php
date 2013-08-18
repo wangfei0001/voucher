@@ -7,8 +7,8 @@
  * @property string $id_user
  * @property integer $username
  * @property integer $password
- * @property integer $fname
- * @property integer $lname
+ * @property string $fname
+ * @property string $lname
  * @property string $email
  * @property string $dob
  * @property integer $gender
@@ -52,10 +52,12 @@ class User extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('username, password, email, fk_role', 'required'),
-			array('fname, lname, gender', 'numerical', 'integerOnly'=>true),
+			array('gender', 'numerical', 'integerOnly'=>true),
 			array('email', 'length', 'max'=>128),
 			array('fk_role, fk_country, fk_state, fk_city', 'length', 'max'=>20),
 			array('dob', 'safe'),
+            array('fname', 'safe'),
+            array('lname', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id_user, fname, lname, email, dob, gender, fk_role, fk_country, fk_state, fk_city, created_at, updated_at', 'safe', 'on'=>'search'),

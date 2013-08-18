@@ -20,6 +20,19 @@ class VouchersController extends Controller
     }
 
 
+    /***
+     * 检查用户有无权限对该Voucher操作
+     *
+     * @param $id_voucher
+     */
+//    protected function validateVoucher($id_voucher)
+//    {
+//
+//
+//
+//        return true;
+//    }
+
     public function actionList()
     {
 
@@ -101,6 +114,10 @@ class VouchersController extends Controller
             die('error');
 
         }
+        if(!$this->validateVoucher($id)){
+
+            die('shit');
+        }
 
         $this->breadcrumbs = array('编辑优惠券');
 
@@ -110,6 +127,8 @@ class VouchersController extends Controller
         if(!$result){
             die('we can\'t find this voucher');
         }
+
+        //check fk user
 
 
         if(isset($_POST['CreateVoucherForm'])){
@@ -140,5 +159,47 @@ class VouchersController extends Controller
 
 
         $this->render('view');
+    }
+
+
+    /***
+     *
+     */
+    public function actionUpload()
+    {
+        $id = $this->getParam('id');
+        if(empty($id)){
+            //error
+            die('error');
+
+        }
+//        if(!$this->validateVoucher($id)){
+//
+//            die('shit');
+//        }
+
+        $model = new CreateVoucherForm();
+
+        $voucher = $model->loadVoucher($id);
+
+
+        $model->image = CUploadedFile::getInstanceByName('CreateVoucherForm[image]');
+
+        if(!$model->validate()){
+
+            die('fuck');
+        }
+
+        die('ok');
+
+
+
+
+        echo CJSON::encode(array(
+            'result'    =>  true,
+            'data'      =>  'fuck'
+        ));
+
+        Yii::app()->end();
     }
 }

@@ -73,9 +73,9 @@ class MerchantForm extends CFormModel
             $merchant->setAttributes($user->merchant);
 
             $merchant->id_merchant = $user->merchant['id_merchant'];
+
             $merchant->isNewRecord = false;
 
-            //var_dump($merchant->attributes);die();
         }
 
         $merchant->setAttributes($this->attributes);
@@ -91,6 +91,7 @@ class MerchantForm extends CFormModel
     public function init()
     {
         if(!empty(Yii::app()->user->merchant)){
+
             $this->setAttributes(Yii::app()->user->merchant);
 //            var_dump($this->isAttributeSafe('lng'));
 //            var_dump($this->isAttributeSafe('company'));
