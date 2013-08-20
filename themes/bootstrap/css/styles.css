@@ -27,3 +27,12 @@
     height: 300px;
 }
 
+.span9 #content{
+    position: relative;
+}
+
+#img_wrap{
+    position: absolute;
+    right:20px;
+    top:20px;
+}

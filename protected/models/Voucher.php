@@ -58,6 +58,7 @@ class Voucher extends CActiveRecord
 			array('name', 'length', 'max'=>128),
 			array('fk_merchant', 'length', 'max'=>20),
 			array('term_condition, start_time, end_time', 'safe'),
+            array('image', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id_voucher, name, fk_merchant, term_condition, start_time, end_time, reusable, created_at, updated_at', 'safe', 'on'=>'search'),

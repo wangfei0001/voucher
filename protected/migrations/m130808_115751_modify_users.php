@@ -8,6 +8,7 @@ class m130808_115751_modify_users extends CDbMigration
             ALTER TABLE  `users` CHANGE  `fname`  `fname` VARCHAR( 64 ) NULL DEFAULT NULL ;
             ALTER TABLE  `users` CHANGE  `lname`  `fname` VARCHAR( 64 ) NULL DEFAULT NULL ;
             ALTER TABLE  `vouchers` ADD  `image` VARCHAR( 255 ) NULL AFTER  `fk_merchant` ;
+            ALTER TABLE  `vouchers` CHANGE  `image`  `image` TINYINT NULL DEFAULT NULL ;
         ");
 	}
 

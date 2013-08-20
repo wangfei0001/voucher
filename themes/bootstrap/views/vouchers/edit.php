@@ -57,9 +57,19 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'htmlOptions'=>array('class'=>'well'),
 )); ?>
 
-<?php echo $form->textFieldRow($model, 'name', array('class'=>'span3')); ?>
+<?php echo $form->textFieldRow($model, 'name', array('class'=>'span3','readonly'=>$canModify?'':'readonly')); ?>
 
 
+<?php
+    if($model->image){
+?>
+    <div id="img_wrap"><img src="/uploads/<?php echo $model->id_voucher?>.jpg"></div>
+<?php
+    }
+
+
+    if($canModify){
+?>
     <?php echo $form->labelEx($model,'image'); ?>
     <?php //if($model->image !== null) echo CHtml::image(Yii::app()->request->baseUrl . '/protected/logos/' . $model->image); ?>
     <br>
@@ -77,27 +87,43 @@ $this->widget('bootstrap.widgets.TbButton', array(
 ));
 ?>
     <?php echo $form->error($model,'image'); ?>
+<?php
+    }
+        ?>
 
 
-
-<?php echo $form->textFieldRow($model, 'start_time', array('class'=>'span3 datepicker','data-date-format'=>"yyyy-mm-dd",'readonly'=>'readonly')); ?>
+<?php echo $form->textFieldRow($model, 'start_time', array(
+    'class'=>'span3 ' .($canModify?'datepicker':''),
+    'data-date-format'=>"yyyy-mm-dd",
+    'readonly'=>'readonly'));
+?>
 <!--span class="add-on"><i class="icon-calendar"></i></span-->
 <?php echo $form->textFieldRow($model, 'end_time', array('class'=>'span3 datepicker','data-date-format'=>"yyyy-mm-dd",'readonly'=>'readonly')); ?>
-<?php echo $form->textAreaRow($model, 'term_condition', array('class'=>'span8 nosizable','rows'=>6)); ?>
+<?php echo $form->textAreaRow($model, 'term_condition', array('class'=>'span8 nosizable','rows'=>6, 'readonly'=>$canModify?'':'readonly')); ?>
 <?php echo $form->checkboxRow($model, 'reusable'); ?>
-<div class="span2">
+<div class="span1">
+<?php
+
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'submit',
+        'label'=>'发布',
+        'type'=>'primary',
+        'size'=>'small', // null, 'large', 'small' or 'mini'
+    ));
+
+?>
+</div>
+<div class="span1">
 <?php
 
 $this->widget('bootstrap.widgets.TbButton', array(
-    'buttonType' => 'submit',
-    'label'=>'发布',
-    'type'=>'primary',
+    'buttonType' => 'button',
+    'label'=>'复制',
     'size'=>'small', // null, 'large', 'small' or 'mini'
 ));
 ?>
 </div>
 <?php
-
 $this->widget('bootstrap.widgets.TbButton', array(
     'buttonType' => 'button',
     'label'=>'预览',

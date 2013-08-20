@@ -26,7 +26,6 @@ class CreateVoucherForm extends CFormModel
     public $image;
 
 
-
     public function init()
     {
         $this->term_condition = Yii::app()->user->merchant['term_condition'];
@@ -68,7 +67,8 @@ class CreateVoucherForm extends CFormModel
             array('term_condition', 'safe'),
             array('reusable', 'safe'),
             array('id_voucher', 'safe'),
-            array('image', 'file', 'allowEmpty' => true,'maxSize' => 102400, 'types' => 'jpg, jpeg, png'),
+            array('image', 'safe')
+            //array('image', 'file', 'allowEmpty' => true,'maxSize' => 1024 * 500, 'types' => 'jpg, jpeg, png'),
         );
     }
 
@@ -101,9 +101,9 @@ class CreateVoucherForm extends CFormModel
                 $this->addError($attribute, '生效时间设置错误');
             }
         }
-        if(strtotime($this->start_time) < time()){
-            $this->addError($attribute, '生效时间设置错误');
-        }
+//        if(strtotime($this->start_time) < time()){
+//            $this->addError($attribute, '生效时间设置错误');
+//        }
 
     }
 
@@ -147,6 +147,7 @@ class CreateVoucherForm extends CFormModel
             $this->voucher->status = Voucher::VOUCHER_STATUS_APPROVED;
         //else
         //    $voucher->status = $this->voucher->status;
+
 
 
         $result = $this->voucher->save();
