@@ -92,7 +92,7 @@ class VouchersController extends Controller
 
             if($model->validate()){
 
-                if($model->create()){
+                if($model->save()){
                     die('ok');
                 }else{
                     $this->setFlash('error', 'Can not create voucher.');
@@ -100,7 +100,7 @@ class VouchersController extends Controller
             }
         }
 
-        $this->render('edit', array('model'=>$model));
+        $this->render('edit', array('model'=>$model, 'canModify'=>true));
     }
 
 
@@ -142,12 +142,10 @@ class VouchersController extends Controller
 
 
         //check fk user
-
-
         if(isset($_POST['CreateVoucherForm'])){
             $model->attributes=$_POST['CreateVoucherForm'];
 
-
+            $model->image = $model->voucher->image;
             if($model->validate()){
 
                 if($model->save()){

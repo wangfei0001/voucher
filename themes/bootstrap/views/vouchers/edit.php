@@ -5,6 +5,16 @@
         var checkout = $('.datepicker').datepicker().on('changeDate', function(ev){
             checkout.datepicker('hide');
         });
+
+        $('#reusable').click(function(){
+            $('#reuse_frame').toggle();
+
+            var checked = $(this).attr('checked');
+
+        });
+
+        $("#reuse_total").keydown(onlyNumber);
+
     });
 
 
@@ -30,12 +40,15 @@
                     $("#loading").hide();
                 },
                 success: function (data, status){
-                    if(typeof(data.error) != 'undefined'){
-                        if(data.error != ''){
-                            alert(data.error);
-                        }else{
-                            alert(data.msg);
-                        }
+//                    if(typeof(data.error) != 'undefined'){
+//                        if(data.error != ''){
+//                            alert(data.error);
+//                        }else{
+//                            alert(data.msg);
+//                        }
+//                    }
+                    if(data.result){
+                        $('#img_wrap').html('<img src="/' + data.data.path + '">');
                     }
                 },
                 error: function (data, status, e){
@@ -59,15 +72,16 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 
 <?php echo $form->textFieldRow($model, 'name', array('class'=>'span3','readonly'=>$canModify?'':'readonly')); ?>
 
-
+<div id="img_wrap">
 <?php
     if($model->image){
 ?>
-    <div id="img_wrap"><img src="/uploads/<?php echo $model->id_voucher?>.jpg"></div>
+    <img src="/uploads/<?php echo $model->id_voucher?>.jpg">
 <?php
     }
-
-
+?>
+</div>
+<?php
     if($canModify){
 ?>
     <?php echo $form->labelEx($model,'image'); ?>
@@ -76,6 +90,7 @@ $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     <?php echo $form->fileField($model, 'image'); ?>
 <?php
 
+if(Yii::app()->controller->action->id != 'create'){
 $this->widget('bootstrap.widgets.TbButton', array(
     'buttonType' => 'button',
     'label'=>'上传',
@@ -85,6 +100,7 @@ $this->widget('bootstrap.widgets.TbButton', array(
     'id' => 'buttonUpload'
         )
 ));
+}
 ?>
     <?php echo $form->error($model,'image'); ?>
 <?php
@@ -100,8 +116,14 @@ $this->widget('bootstrap.widgets.TbButton', array(
 <!--span class="add-on"><i class="icon-calendar"></i></span-->
 <?php echo $form->textFieldRow($model, 'end_time', array('class'=>'span3 datepicker','data-date-format'=>"yyyy-mm-dd",'readonly'=>'readonly')); ?>
 <?php echo $form->textAreaRow($model, 'term_condition', array('class'=>'span8 nosizable','rows'=>6, 'readonly'=>$canModify?'':'readonly')); ?>
-<?php echo $form->checkboxRow($model, 'reusable'); ?>
-<div class="span1">
+
+<?php echo $form->checkboxRow($model, 'reusable', array('id'=>'reusable','onclick'=>($canModify?'return true':'return false'))); ?>
+
+<div id="reuse_frame"<?php if($model->reusable){?> style="display: none;"<?php }?>>
+<?php echo $form->textFieldRow($model, 'reuse_total', array('id'=>'reuse_total', 'maxlength'=>5,'class'=>'span1')); ?>
+</div>
+
+<div>
 <?php
 
     $this->widget('bootstrap.widgets.TbButton', array(
@@ -111,24 +133,17 @@ $this->widget('bootstrap.widgets.TbButton', array(
         'size'=>'small', // null, 'large', 'small' or 'mini'
     ));
 
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'button',
+        'label'=>'复制',
+        'size'=>'small', // null, 'large', 'small' or 'mini'
+    ));
+
+    $this->widget('bootstrap.widgets.TbButton', array(
+        'buttonType' => 'button',
+        'label'=>'预览',
+        'size'=>'small', // null, 'large', 'small' or 'mini'
+    ));
 ?>
 </div>
-<div class="span1">
-<?php
-
-$this->widget('bootstrap.widgets.TbButton', array(
-    'buttonType' => 'button',
-    'label'=>'复制',
-    'size'=>'small', // null, 'large', 'small' or 'mini'
-));
-?>
-</div>
-<?php
-$this->widget('bootstrap.widgets.TbButton', array(
-    'buttonType' => 'button',
-    'label'=>'预览',
-    'size'=>'small', // null, 'large', 'small' or 'mini'
-));
-?>
-
 <?php $this->endWidget(); ?>

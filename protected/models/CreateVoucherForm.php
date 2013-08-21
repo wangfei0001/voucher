@@ -25,6 +25,10 @@ class CreateVoucherForm extends CFormModel
 
     public $image;
 
+    public $reuse_total;
+
+    public $reuse_left;
+
 
     public function init()
     {
@@ -33,6 +37,8 @@ class CreateVoucherForm extends CFormModel
         $this->reusable = true;
 
         $this->start_time = date('Y-m-d');
+
+        $this->reuse_total = 100;
     }
 
 
@@ -67,7 +73,8 @@ class CreateVoucherForm extends CFormModel
             array('term_condition', 'safe'),
             array('reusable', 'safe'),
             array('id_voucher', 'safe'),
-            array('image', 'safe')
+            array('image', 'safe'),
+            array('reuse_total', 'checkTotal')
             //array('image', 'file', 'allowEmpty' => true,'maxSize' => 1024 * 500, 'types' => 'jpg, jpeg, png'),
         );
     }
@@ -84,7 +91,8 @@ class CreateVoucherForm extends CFormModel
             'end_time'=>'过期时间',
             'reusable'=>'无使用次数限制',
             'status'=>'状态',
-            'image' =>  '优惠券封面'
+            'image' =>  '优惠券封面',
+            'reuse_total' => '可重复使用次数'
         );
     }
 
@@ -105,6 +113,18 @@ class CreateVoucherForm extends CFormModel
 //            $this->addError($attribute, '生效时间设置错误');
 //        }
 
+    }
+
+
+    public function checkTotal($attribute, $params)
+    {
+        if(!$this->reusable){
+            if($this->reuse_total <= 0){
+                $this->addError($attribute, '使用次数必须大于0');
+            }
+        }else{
+            $this->reuse_total = null;
+        }
     }
 
 
