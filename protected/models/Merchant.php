@@ -18,6 +18,7 @@
  * @property string $website
  * @property string $logo
  * @property string $term_condition
+ * @property string $geohash
  * @property string $created_at
  * @property string $updated_at
  */
@@ -56,7 +57,7 @@ class Merchant extends CActiveRecord
 			array('address1, address2', 'length', 'max'=>1024),
 			array('phone, fax', 'length', 'max'=>32),
 			array('website, logo', 'length', 'max'=>128),
-			array('term_condition', 'safe'),
+			array('term_condition, geohash', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id_merchant, company, fk_user, lat, lng, address1, address2, postcode, phone, fax, website, logo, term_condition, created_at, updated_at', 'safe', 'on'=>'search'),
@@ -95,6 +96,7 @@ class Merchant extends CActiveRecord
 			'website' => 'Website',
 			'logo' => 'Logo',
 			'term_condition' => 'Term Condition',
+            'geohash' => 'Geohash',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -143,6 +145,8 @@ class Merchant extends CActiveRecord
 
 		$criteria->compare('updated_at',$this->updated_at,true);
 
+        $criteria->compare('geohash',$this->geohash,true);
+
 		return new CActiveDataProvider('Merchant', array(
 			'criteria'=>$criteria,
 		));
@@ -164,11 +168,15 @@ class Merchant extends CActiveRecord
 
     public function save($runValidation = true, $attributes = NULL)
     {
+        //calculate the geohash
+        $geohash=new Geohash;
+        $this->geohash = $geohash->encode($this->lat, $this->lng);
         $merchant = parent::save($runValidation, $attributes);
         //update session
         if($merchant){
             Yii::app()->user->setState('merchant', $this->attributes);
             Yii::app()->user->setState('merchantCompleted', true);
+
         }
         //var_dump($this->attributes);die();
         return $merchant;

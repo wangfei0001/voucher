@@ -2,7 +2,14 @@
 <script type="text/javascript">
 
     $(function(){
-        var checkout = $('.datepicker').datepicker().on('changeDate', function(ev){
+        var nowTemp = new Date();
+        var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+        var checkout = $('.datepicker').datepicker({
+            onRender: function(date) {
+                return date.valueOf() < now.valueOf() ? 'disabled' : '';
+            }
+        }).on('changeDate', function(ev){
             checkout.datepicker('hide');
         });
 

@@ -105,6 +105,7 @@ return array(
         'voucherImageSize'  =>  array(
             'width'     =>  146,    //width
             'height'    =>  146     //height
-        )
+        ),
+        'defaultItemsPage'  =>  10
 	),
 );

@@ -32,6 +32,8 @@ class MerchantForm extends CFormModel
 
     public $lng;
 
+    public $geohash;
+
 
     public function rules()
     {
@@ -40,7 +42,7 @@ class MerchantForm extends CFormModel
             array('company, address1, fk_category, postcode, phone,lat,lng', 'required','message'=>'请输入{attribute}.'),
             array('fax','safe'),
             array('website','safe'),
-            array('term_condition','safe')
+            array('term_condition,geohash','safe')
         );
     }
 

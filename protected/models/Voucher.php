@@ -74,6 +74,7 @@ class Voucher extends CActiveRecord
 		return array(
 			'favourites' => array(self::HAS_MANY, 'Favourites', 'fk_voucher'),
 			'redemptions' => array(self::HAS_MANY, 'Redemption', 'fk_voucher'),
+            'merchant' => array(self::BELONGS_TO, 'Merchant', 'fk_merchant')
 		);
 	}
 
@@ -146,5 +147,43 @@ class Voucher extends CActiveRecord
                 'updateAttribute' => 'updated_at',
             )
         );
+    }
+
+
+    /***
+     * Get all of the vouchers
+     *
+     * @return array
+     */
+    public static function getAll($param = null)
+    {
+        $return = array();
+
+        $pageSize = Yii::app()->params['defaultItemsPage'];
+
+        $criteria=new CDbCriteria;
+        $criteria->with=array('merchant');
+        $criteria->order = 't.created_at desc, id_voucher desc';
+        $criteria->limit = $pageSize;
+
+        if(isset($param['time']) && isset($param['id'])){
+            $criteria->condition = 't.created_at <= "' .$param['time'] .'" and id_voucher < ' .$param['id'];
+        }
+
+        $rows = self::model()->findAll($criteria);
+        if($rows){
+            foreach($rows as $val){
+                $return[] = array(
+                    'merchant'      =>  array(
+                        'id_merchant'           =>          $val['merchant']['id_merchant'],
+                        'company'               =>          $val['merchant']['company'],
+                        'logo'                  =>          $val['merchant']['logo'],
+                    ),
+                    'name'          =>  $val['name'],
+                    'id_voucher'    =>  $val['id_voucher']
+                );
+            }
+        }
+        return $return;
     }
 }
