@@ -75,6 +75,7 @@ class User extends CActiveRecord
 			'favourites' => array(self::HAS_MANY, 'Favourites', 'fk_user'),
 			'redemptions' => array(self::HAS_MANY, 'Redemption', 'fk_user'),
 			'fk_role0' => array(self::BELONGS_TO, 'Roles', 'fk_role'),
+            'userskey'=>array(self::HAS_ONE, 'Userskey', 'fk_user'),
 		);
 	}
 
@@ -167,5 +168,48 @@ class User extends CActiveRecord
     public function getIsMerchant()
     {
         return $this->fk_role == self::USER_ROLE_MERCHANT ? true : false;
+    }
+
+
+
+    /***
+     * Save related userskey data
+     *
+     * @return bool
+     */
+    public function afterSave()
+    {
+        if (parent::beforeSave()){
+
+            if($this->fk_role == User::USER_ROLE_APP && $this->isNewRecord){
+
+                $salt = uniqid('', true);
+                $hash = hash('sha256', $salt .$this->username);
+
+                $userskey = new Userskey();
+
+                $userskey->public_key = $hash;
+
+
+                $salt = uniqid('', true);
+                $privateKey = hash('sha256', $salt .$this->username .time());
+
+                $userskey->private_key = $privateKey;
+
+                $userskey->fk_user = $this->id_user;
+
+                $this->userskey = $userskey;
+
+                if(!$userskey->save()){
+
+                    $this->isNewRecord = false;
+
+                    $this->delete();
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

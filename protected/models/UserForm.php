@@ -43,9 +43,7 @@ class UserForm extends CFormModel
         // will receive user inputs.
 		return array(
             array('email', 'required', 'message'=>'请输入{attribute}.'),
-            array('fname', 'safe'),
-            array('lname', 'safe'),
-            array('gender', 'safe')
+            array('fname, lname, gender, username, password', 'safe')
         );
     }
 
@@ -110,5 +108,27 @@ class UserForm extends CFormModel
         }
 
         return false;
+    }
+
+
+    public function create()
+    {
+        $user = new User;
+
+        $user->isNewRecord = true;
+
+        $user->setAttributes($this->attributes);
+
+        $user->fk_role = User::USER_ROLE_APP;
+
+
+
+        $result = $user->save();
+
+        if(!$result){
+
+        }
+
+        return $result ? $user : false;
     }
 }

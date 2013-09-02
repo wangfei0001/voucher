@@ -178,6 +178,8 @@ class Voucher extends CActiveRecord
                         'id_merchant'           =>          $val['merchant']['id_merchant'],
                         'company'               =>          $val['merchant']['company'],
                         'logo'                  =>          $val['merchant']['logo'],
+                        'lat'                   =>          $val['merchant']['lat'],
+                        'lng'                   =>          $val['merchant']['lng'],
                     ),
                     'name'          =>  $val['name'],
                     'id_voucher'    =>  $val['id_voucher']
