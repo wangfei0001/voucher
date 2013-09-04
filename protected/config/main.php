@@ -58,11 +58,11 @@ return array(
             'rules'=>array(
                 /*                'post/<id:\d+>/<title:.*?>'=>'post/view',*/
                 // REST patterns
-                array('<version>/<controller>/list', 'pattern'=>'api/<version:\w+>/<controller:\w+>', 'verb'=>'GET'),
-                array('<version>/<controller>/view', 'pattern'=>'api/<version:\w+>/<controller:\w+>/<id:\d+>', 'verb'=>'GET'),
-                array('<version>/<controller>/update', 'pattern'=>'api/<version:\w+>/<controller:\w+>/<id:\d+>', 'verb'=>'PUT'),
-                array('<version>/<controller>/delete', 'pattern'=>'api/<version:\w+>/<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
-                array('<version>/<controller>/create', 'pattern'=>'api/<version:\w+>/<controller:\w+>', 'verb'=>'POST'),
+                array('api/list', 'pattern'=>'api/v<version:\d+>/<controller:\w+>', 'verb'=>'GET'),
+                array('api/create', 'pattern'=>'api/v<version:\d+>/<controller:\w+>', 'verb'=>'POST'),
+                array('api/view', 'pattern'=>'api/v<version:\d+>/<controller:\w+>/<id:\d+>', 'verb'=>'GET'),
+                array('api/update', 'pattern'=>'api/v<version:\d+>/<controller:\w+>/<id:\d+>', 'verb'=>'PUT'),
+                array('api/delete', 'pattern'=>'api/v<version:\d+>/<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
                 // Other controllers
 
             ),

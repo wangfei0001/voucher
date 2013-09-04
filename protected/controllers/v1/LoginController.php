@@ -14,7 +14,7 @@ class LoginController extends ApiController
      *
      * curl -d "username=wangfei0008&password=616682" --dump-header headers http://voucher/api/v1/login
      */
-    public function actionCreate()
+    public function Create()
     {
 
         $username = $this->getParam('username');
@@ -42,9 +42,12 @@ class LoginController extends ApiController
 
     /***
      * Logout action
+     *
+     * curl -v -H "Authorization: wangfei0001:616682" -X DELETE http://voucher/api/v1/login/27
      */
-    public function actionDelete()
+    public function Delete()
     {
+
 
         die('shit');
     }

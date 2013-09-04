@@ -14,7 +14,7 @@ class UserController extends ApiController
      *
      * curl -d "username=wangfei0008&password=616682&email=wangfei001@yahoo.com" --dump-header headers http://voucher/api/v1/user
      */
-    public function actionCreate()
+    public function Create()
     {
         $response = array(
             'data'      =>  null,

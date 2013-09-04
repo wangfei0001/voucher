@@ -8,13 +8,20 @@
  */
 class Hmac
 {
+
+    const HMAC_ENCODE_ALGO_SHA256 = 'sha256';
+
+
+
     /***
-     * 存储所有将要使用api signature的controller，actions设置
-     *
-     * @var array
+     * @param $data
+     * @param $private
+     * @return string
      */
-    protected $protectedActions = array(
-        'login'     =>  array('delete'),
-        'voucher'   =>  array()
-    );
+    public static function encode($data, $private)
+    {
+
+        return hash_hmac ( self::HMAC_ENCODE_ALGO_SHA256, $data , $private );
+    }
+
 }

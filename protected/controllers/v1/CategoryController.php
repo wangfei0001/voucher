@@ -12,7 +12,7 @@ class CategoryController extends ApiController
     /***
      *
      */
-    public function actionList()
+    public function Index()
     {
 
         $cats = Category::getAll();

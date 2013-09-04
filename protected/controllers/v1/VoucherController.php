@@ -13,7 +13,7 @@ class VoucherController extends ApiController
      * curl -i http://voucher/api/v1/voucher
      *
      */
-    public function actionList()
+    public function Index()
     {
         $last_id_voucher = $this->getParam('id_voucher');
 
@@ -38,7 +38,7 @@ class VoucherController extends ApiController
     /***
      * get the voucher
      */
-    public function actionView()
+    public function View()
     {
         $id = $this->getParam('id');
 
