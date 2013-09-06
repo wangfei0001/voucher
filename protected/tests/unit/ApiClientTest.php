@@ -9,20 +9,126 @@
 class ApiClientTest extends CDbTestCase
 {
     public $fixtures=array(
-        'users'=>'User',
-        'userskey'=>'Userskey'
+        'users'     =>  'User',
+        'userskey'  =>  'Userskey',
+        'vouchers'  =>  'Voucher',
+        'favourites' => 'Favourite'
     );
 
-    public function testLogout()
+    protected $apiClient;
+
+
+    public function setUp()
     {
-        $user = $this->users;
+        parent::setUp();
+        $this->apiClient = new ApiClient();
+    }
 
-        $key = $this->userskey;
+//
+//    /***
+//     *
+//     */
+//    public function testLogin()
+//    {
+//        $mustHave = array('public_key', 'private_key', 'id_user', 'username');
+//
+//        $user = $this->users['user1'];
+//        $json = $this->apiClient->login($user['username'], $user['password']);
+//
+//        $this->assertTrue(is_array($json) && $json['status'] == true);
+//
+//        foreach($mustHave as $val){
+//            $this->assertTrue(isset($json['data'][$val]), 'Variable ' .$val .' not set');
+//        }
+//    }
+//
+//
+//    /***
+//     *
+//     */
+//    public function testLogout()
+//    {
+//        $user = $this->users['user1'];
+//
+//        $key = $this->userskey['key1'];
+//
+//
+//        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+//
+//        $json = $this->apiClient->logout($user['id_user']);
+//
+//        $this->assertTrue(is_array($json));
+//
+//        $this->assertEquals($json['status'], true);
+//
+//    }
+//
+//    /***
+//     *
+//     */
+//    public function testLogoutWithoutSignature()
+//    {
+//        $user = $this->users['user1'];
+//
+//        $json = $this->apiClient->logout($user['id_user']);
+//
+//        $this->assertTrue(is_array($json));
+//
+//        $this->assertEquals($json['status'], false);
+//    }
+//
+//
+//    /***
+//     * 添加优惠券
+//     */
+//    public function testAddFavourite()
+//    {
+//
+//        $key = $this->userskey['key1'];
+//
+//        $voucher = $this->vouchers['voucher1'];
+//
+//        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+//
+//        $json = $this->apiClient->addVoucherAsFavourite($voucher['id_voucher']);
+//
+//        $this->assertTrue(is_array($json));
+//
+//        $this->assertEquals($json['status'], true);
+//
+//        $this->assertGreaterThan(0, $json['data']);
+//
+//    }
 
 
-        exec('curl -v -H "Authorization: wangfei0001:616682" -X DELETE http://voucher/api/v1/login/27', $output, $retval);
+//    public function testRemoveFavourite()
+//    {
+//        $favourite = $this->favourites['user1voucher1'];
+//
+//        $key = $this->userskey['key1'];
+//
+//        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+//
+//        $json = $this->apiClient->removeFavourite($favourite['id_favourite']);
+//
+//        $this->assertTrue(is_array($json));
+//
+//        $this->assertEquals($json['status'], true);
+//    }
 
-        var_dump($output);
 
+    public function testCheckVersion()
+    {
+        $mustHave = array('version', 'description', 'released_at');
+
+        $json = $this->apiClient->checkVersion('1.1.0');
+
+        $this->assertTrue(is_array($json));
+
+        $this->assertEquals($json['status'], true);
+
+        foreach($mustHave as $val){
+            $this->assertTrue(isset($json['data'][$val]), 'Variable ' .$val .' not set');
+        }
     }
 }
