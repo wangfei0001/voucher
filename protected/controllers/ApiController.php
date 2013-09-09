@@ -49,7 +49,8 @@ class ApiController extends CController
      */
     protected $protectedActions = array(
         'login'     =>  array('delete'),
-        'voucher'   =>  array()
+        'voucher'   =>  array(),
+        'favourite' =>  array('create', 'delete')
     );
 
 
@@ -68,11 +69,14 @@ class ApiController extends CController
             $actionId = Yii::app()->controller->action->id;
             if(in_array($actionId, $this->protectedActions[$controllerId])){        //this is an action need to be protected
                                                                                     //, so need to check the api signiture
-        //        Yii::app()->attachEventHandler('onException',array($this,'handleError'));
-        //        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
 
                 $header = apache_request_headers();
                 $auth = isset($header['Authorization']) ? $header['Authorization'] : null;
+
+//$fp = fopen('./protected/runtime/auth.log', 'a+');
+//fwrite($fp, '--------------' .PHP_EOL);
+//fwrite($fp, $auth .PHP_EOL);
+//fclose($fp);
 
                 if(!empty($auth)){
 //                    if(substr($auth,0,6) == 'Basic '){
@@ -81,13 +85,19 @@ class ApiController extends CController
 //
 //                    }
 
+                    $stringToSign = $_SERVER['REQUEST_METHOD'] ."\n"
+                        .strtolower($header['Host']) ."\n"
+                        .$_SERVER['REQUEST_URI'] ."\n";
 
                     $auth = explode(':', $auth);
-                    var_dump($auth);
-                    die();
+                    if(!is_array($auth) || count($auth) != 2){
+                        throw new Exception('请求授权失败，格式错误');
+                    }
 
-                    if(!$this->auth($auth[0], $auth[1])){
-                        throw new Exception('Http Basic Authorization 认证失败！无访问权限');
+                    $userKey = $this->validateUser($auth[0]);
+                    //check the signature
+                    if(empty($userKey) || $auth[1] != HMAC::encode($stringToSign, $userKey['private_key'])){
+                        throw new Exception('Api Signature Authorization 认证失败！无访问权限');
                     }
                 }else{
                     throw new Exception('该资源需要进行 Http Basic Authorization 认证失败！无访问权限');
@@ -99,20 +109,16 @@ class ApiController extends CController
 
 
     /***
-     * @param $key
-     * @param $secret
+     * @param $pub
      * @return bool
      */
-    protected function auth($key, $secret)
+    protected function validateUser($pub)
     {
-        $user = User::model('User')->find('username = :username', array('username'=>$key));
+        $row = Userskey::model()->find('public_key = :public_key', array('public_key'=>$pub));
 
-        if($user){
-            if($user->password == $secret){
-                $this->id_user = $user->id_user;
-
-                return true;
-            }
+        if($row){
+            $this->id_user = $row->fk_user;
+            return $row;
         }
 
         return false;
@@ -169,6 +175,9 @@ class ApiController extends CController
         $controller = $this->getParam('controller');
         $association = $this->getParam('association');
 
+
+        Yii::app()->attachEventHandler('onException',array($this,'handleError'));
+        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
 
         $instance = null;
 
@@ -314,6 +323,7 @@ class ApiController extends CController
             }
         }
 
+
         if (is_null($value)) {
             $value = $default;
         }
@@ -391,15 +401,17 @@ class ApiController extends CController
         if(!empty($message)){
             $data['message'] = $message;
         }
-        // servers don't always have a signature turned on
-        // (this is an apache directive "ServerSignature On")
-        //$signature = ($_SERVER['SERVER_SIGNATURE'] == '') ? $_SERVER['SERVER_SOFTWARE'] . ' Server at ' . $_SERVER['SERVER_NAME'] . ' Port ' . $_SERVER['SERVER_PORT'] : $_SERVER['SERVER_SIGNATURE'];
 
         echo CJSON::encode($data);
 
         Yii::app()->end();
     }
 
+
+    /***
+     * @param array $objectArray
+     * @return array|bool
+     */
     protected function toArray(array $objectArray)
     {
         $result = false;

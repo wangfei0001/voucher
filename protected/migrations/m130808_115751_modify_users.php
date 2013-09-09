@@ -32,6 +32,14 @@ class m130808_115751_modify_users extends CDbMigration
             ALTER TABLE  `users` ADD UNIQUE (
             `username`
             );
+            CREATE TABLE IF NOT EXISTS `version` (
+              `id_version` bigint(20) NOT NULL AUTO_INCREMENT,
+              `version` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT 'like 2.3.4',
+              `description` varchar(1024) COLLATE utf8_unicode_ci NOT NULL,
+              `released_at` datetime NOT NULL,
+              PRIMARY KEY (`id_version`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+            ALTER TABLE  `version` CHANGE  `released_at`  `released_at` DATE NOT NULL ;
         ");
 	}
 

@@ -29,9 +29,20 @@ class LoginController extends ApiController
 
         if($user->password == $password){
             $data = Userskey::model()->find('fk_user = :fk_user', array('fk_user' => $user->id_user));
-            $status = true;
+
+            if($data){
+                $data = $data->attributes;
+
+                $data['id_user'] = $user->id_user;
+                $data['username'] = $user->username;
+
+                unset($data['fk_user'], $data['id_userskey']);
+
+                $status = true;
+            }
 
         }
+
         $this->_sendResponse(array(
             'data'  =>      $data,
             'status'    =>  $status
@@ -47,9 +58,17 @@ class LoginController extends ApiController
      */
     public function Delete()
     {
+        $result = false;
 
+        $id_user = $this->getParam('id');
 
-        die('shit');
+        if($id_user == $this->id_user){
+            $result = true;
+        }
+        $this->_sendResponse(array(
+            'data'  =>      null,
+            'status'    =>  $result
+        ));
     }
 
 }

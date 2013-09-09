@@ -14,6 +14,8 @@ return array(
 	// preloading 'log' component
 	'preload'=>array('log'),
 
+
+
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
@@ -85,14 +87,16 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
+					'levels'=>'error, warning, info',
+//                    'categories' => 'application.*'
+                ),
 				// uncomment the following to show log messages on web pages
-				/*
-				array(
-					'class'=>'CWebLogRoute',
-				),
-				*/
+//                array(
+//                    'class'=>'CFileLogRoute',
+//                    'levels'=>'apiinfo',
+//                    'categories'=>"api.*",
+//                    'logFile'=>'apiinfo.log',
+//               ),
 			),
 		),
 	),

@@ -24,97 +24,97 @@ class ApiClientTest extends CDbTestCase
         $this->apiClient = new ApiClient();
     }
 
-//
-//    /***
-//     *
-//     */
-//    public function testLogin()
-//    {
-//        $mustHave = array('public_key', 'private_key', 'id_user', 'username');
-//
-//        $user = $this->users['user1'];
-//        $json = $this->apiClient->login($user['username'], $user['password']);
-//
-//        $this->assertTrue(is_array($json) && $json['status'] == true);
-//
-//        foreach($mustHave as $val){
-//            $this->assertTrue(isset($json['data'][$val]), 'Variable ' .$val .' not set');
-//        }
-//    }
-//
-//
-//    /***
-//     *
-//     */
-//    public function testLogout()
-//    {
-//        $user = $this->users['user1'];
-//
-//        $key = $this->userskey['key1'];
-//
-//
-//        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
-//
-//        $json = $this->apiClient->logout($user['id_user']);
-//
-//        $this->assertTrue(is_array($json));
-//
-//        $this->assertEquals($json['status'], true);
-//
-//    }
-//
-//    /***
-//     *
-//     */
-//    public function testLogoutWithoutSignature()
-//    {
-//        $user = $this->users['user1'];
-//
-//        $json = $this->apiClient->logout($user['id_user']);
-//
-//        $this->assertTrue(is_array($json));
-//
-//        $this->assertEquals($json['status'], false);
-//    }
-//
-//
-//    /***
-//     * 添加优惠券
-//     */
-//    public function testAddFavourite()
-//    {
-//
-//        $key = $this->userskey['key1'];
-//
-//        $voucher = $this->vouchers['voucher1'];
-//
-//        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
-//
-//        $json = $this->apiClient->addVoucherAsFavourite($voucher['id_voucher']);
-//
-//        $this->assertTrue(is_array($json));
-//
-//        $this->assertEquals($json['status'], true);
-//
-//        $this->assertGreaterThan(0, $json['data']);
-//
-//    }
+
+    /***
+     *
+     */
+    public function testLogin()
+    {
+        $mustHave = array('public_key', 'private_key', 'id_user', 'username');
+
+        $user = $this->users['user1'];
+        $json = $this->apiClient->login($user['username'], $user['password']);
+
+        $this->assertTrue(is_array($json) && $json['status'] == true);
+
+        foreach($mustHave as $val){
+            $this->assertTrue(isset($json['data'][$val]), 'Variable ' .$val .' not set');
+        }
+    }
 
 
-//    public function testRemoveFavourite()
-//    {
-//        $favourite = $this->favourites['user1voucher1'];
-//
-//        $key = $this->userskey['key1'];
-//
-//        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
-//
-//        $json = $this->apiClient->removeFavourite($favourite['id_favourite']);
-//
-//        $this->assertTrue(is_array($json));
-//
-//        $this->assertEquals($json['status'], true);
-//    }
+    /***
+     *
+     */
+    public function testLogout()
+    {
+        $user = $this->users['user1'];
+
+        $key = $this->userskey['key1'];
+
+
+        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+
+        $json = $this->apiClient->logout($user['id_user']);
+
+        $this->assertTrue(is_array($json));
+
+        $this->assertEquals($json['status'], true);
+
+    }
+
+    /***
+     *
+     */
+    public function testLogoutWithoutSignature()
+    {
+        $user = $this->users['user1'];
+
+        $json = $this->apiClient->logout($user['id_user']);
+
+        $this->assertTrue(is_array($json));
+
+        $this->assertEquals($json['status'], false);
+    }
+
+
+    /***
+     * 添加优惠券
+     */
+    public function testAddFavourite()
+    {
+
+        $key = $this->userskey['key1'];
+
+        $voucher = $this->vouchers['voucher1'];
+
+        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+
+        $json = $this->apiClient->addVoucherAsFavourite($voucher['id_voucher']);
+
+        $this->assertTrue(is_array($json));
+
+        $this->assertEquals($json['status'], true);
+
+        $this->assertGreaterThan(0, $json['data']);
+
+    }
+
+
+    public function testRemoveFavourite()
+    {
+        $favourite = $this->favourites['user1voucher1'];
+
+        $key = $this->userskey['key1'];
+
+        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+
+        $json = $this->apiClient->removeFavourite($favourite['id_favourite']);
+
+        $this->assertTrue(is_array($json));
+
+        $this->assertEquals($json['status'], true);
+    }
 
 
     public function testCheckVersion()
