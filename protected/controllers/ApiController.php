@@ -175,7 +175,6 @@ class ApiController extends CController
         $controller = $this->getParam('controller');
         $association = $this->getParam('association');
 
-
         Yii::app()->attachEventHandler('onException',array($this,'handleError'));
         Yii::app()->attachEventHandler('onError',array($this,'handleError'));
 
@@ -191,6 +190,7 @@ class ApiController extends CController
         if(!class_exists($className)){
             throw new Exception('Class ' .$className .' not found!');
         }
+
         if(!$association){  //no association controller
             $instance = new $className($controller);
             $instance->id_user = $this->id_user;
@@ -238,6 +238,7 @@ class ApiController extends CController
 
     public function actionView()
     {
+        return $this->getController()->View();
     }
 
     public function actionCreate()

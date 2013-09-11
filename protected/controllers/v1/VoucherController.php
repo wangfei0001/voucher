@@ -40,6 +40,7 @@ class VoucherController extends ApiController
      */
     public function View()
     {
+
         $id = $this->getParam('id');
 
         $data = Voucher::model()->find('id_voucher = :id_voucher', array('id_voucher' => $id));
