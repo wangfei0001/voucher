@@ -171,21 +171,24 @@ class Voucher extends CActiveRecord
         }
 
         $rows = self::model()->findAll($criteria);
+
         if($rows){
             foreach($rows as $val){
-                $return[] = array(
-                    'merchant'      =>  array(
-                        'id_merchant'           =>          $val['merchant']['id_merchant'],
-                        'company'               =>          $val['merchant']['company'],
-                        'logo'                  =>          $val['merchant']['logo'],
-                        'lat'                   =>          $val['merchant']['lat'],
-                        'lng'                   =>          $val['merchant']['lng'],
-                    ),
-                    'name'          =>  $val['name'],
-                    'id_voucher'    =>  $val['id_voucher']
-                );
+                $return[] = $val->getBrief();
             }
         }
         return $return;
     }
+
+
+    public function getBrief()
+    {
+        return array(
+            'name'  =>  $this->name,
+            'id_voucher' => $this->id_voucher,
+            'merchant' => $this->merchant->getData4Voucher()
+        );
+    }
+
+
 }

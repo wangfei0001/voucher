@@ -60,8 +60,8 @@ class Favourite extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'fk_voucher0' => array(self::BELONGS_TO, 'Vouchers', 'fk_voucher'),
-			'fk_user0' => array(self::BELONGS_TO, 'Users', 'fk_user'),
+			'voucher' => array(self::BELONGS_TO, 'Voucher', 'fk_voucher'),
+			'user' => array(self::BELONGS_TO, 'User', 'fk_user'),
 		);
 	}
 

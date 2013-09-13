@@ -181,4 +181,15 @@ class Merchant extends CActiveRecord
         //var_dump($this->attributes);die();
         return $merchant;
     }
+
+    public function getData4Voucher()
+    {
+        return array(
+            'id_merchant'           =>          $this->id_merchant,
+            'company'               =>          $this->company,
+            'logo'                  =>          $this->logo,
+            'lat'                   =>          $this->lat,
+            'lng'                   =>          $this->lng
+        );
+    }
 }

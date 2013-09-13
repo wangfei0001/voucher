@@ -30,6 +30,8 @@ class ApiClient
 
     const API_REMOVEFAVOURITE_VOUCHER = 'REMOVE_VOUCHER';
 
+    const API_GETFAVOURITE_VOUCHER = 'GET_VOUCHERS';
+
 
     const API_CHECKVERSION = 'CHECK_VERSION';
 
@@ -45,6 +47,7 @@ class ApiClient
         //收藏voucher
         self::API_ADDFAVOURITE_VOUCHER => array(self::HTTP_METHOD_POST, true),
         self::API_REMOVEFAVOURITE_VOUCHER => array(self::HTTP_METHOD_DELETE, true),
+        self::API_GETFAVOURITE_VOUCHER => array(self::HTTP_METHOD_GET, true),
         //检查版本
         self::API_CHECKVERSION => array(self::HTTP_METHOD_GET, false),
     );
@@ -72,7 +75,7 @@ class ApiClient
         if($method == self::HTTP_METHOD_POST){      //post data
             curl_setopt ($ch, CURLOPT_POSTFIELDS, $data);
         }else if($method == self::HTTP_METHOD_GET){     //如果是get方法，附加参数
-            $url .= '?' . http_build_query($data);
+            if($data) $url .= '?' . http_build_query($data);
         }
 
         $header = array();
@@ -85,11 +88,11 @@ class ApiClient
             $header[] = 'Authorization: '.$this->publicKey .':' .Hmac::encode($stringToSign, $this->privateKey);
 
 
-//            echo '---------------' .PHP_EOL;
-//            echo $stringToSign .PHP_EOL;
-//            echo '+++++++++++++++' .PHP_EOL;
-//            echo 'Authorization: '.$this->publicKey .':' .Hmac::encode($stringToSign, $this->privateKey) .PHP_EOL;
-//            echo '---------------' .PHP_EOL;
+            echo '---------------' .PHP_EOL;
+            echo $stringToSign .PHP_EOL;
+            echo '+++++++++++++++' .PHP_EOL;
+            echo 'Authorization: '.$this->publicKey .':' .Hmac::encode($stringToSign, $this->privateKey) .PHP_EOL;
+            echo '---------------' .PHP_EOL;
 
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
@@ -101,7 +104,11 @@ class ApiClient
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-//echo($result);
+        if(empty($result)){
+            throw new Exception("Empty response.");
+        }
+
+//        var_dump($result);
 
 //        Yii::log("--------" .date('Y-m-d H:i:s') ."-------\n",'info', 'application.*');
 
@@ -190,6 +197,13 @@ class ApiClient
     {
         return $this->callApi(self::API_REMOVEFAVOURITE_VOUCHER, 'favourite/' .$id_favourite, array(
             'id'   =>   $id_favourite
+        ));
+    }
+
+    public function getFavouriteVouchers()
+    {
+        return $this->callApi(self::API_GETFAVOURITE_VOUCHER, 'favourite', array(
+            'type' => 'voucher'
         ));
     }
 

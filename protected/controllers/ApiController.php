@@ -50,7 +50,7 @@ class ApiController extends CController
     protected $protectedActions = array(
         'login'     =>  array('delete'),
         'voucher'   =>  array(),
-        'favourite' =>  array('create', 'delete')
+        'favourite' =>  array('create', 'delete', 'list')
     );
 
 
@@ -67,6 +67,7 @@ class ApiController extends CController
 
         if(isset($this->protectedActions[$controllerId])){
             $actionId = Yii::app()->controller->action->id;
+
             if(in_array($actionId, $this->protectedActions[$controllerId])){        //this is an action need to be protected
                                                                                     //, so need to check the api signiture
 
@@ -77,7 +78,6 @@ class ApiController extends CController
 //fwrite($fp, '--------------' .PHP_EOL);
 //fwrite($fp, $auth .PHP_EOL);
 //fclose($fp);
-
                 if(!empty($auth)){
 //                    if(substr($auth,0,6) == 'Basic '){
 //                        $auth = str_replace('Basic ','', $auth);
@@ -95,6 +95,8 @@ class ApiController extends CController
                     }
 
                     $userKey = $this->validateUser($auth[0]);
+
+
                     //check the signature
                     if(empty($userKey) || $auth[1] != HMAC::encode($stringToSign, $userKey['private_key'])){
                         throw new Exception('Api Signature Authorization 认证失败！无访问权限');

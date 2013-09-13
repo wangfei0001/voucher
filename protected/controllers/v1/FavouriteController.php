@@ -48,6 +48,51 @@ class FavouriteController extends ApiController
 
 
 
+    public function Index()
+    {
+        $result = false;
+        $data = null;
+
+
+        $type = $this->getParam('type');
+        if($type == 'voucher'){
+
+            $criteria=new CDbCriteria;
+            //$criteria->with=array('voucher');
+            //$criteria->order = 't.created_at desc, id_voucher desc';
+            $criteria->condition = 'fk_user = ' .$this->id_user;
+            $criteria->select = 'id_favourite, fk_voucher';
+
+            $favourite = Favourite::model()->findAll($criteria);
+
+            if($favourite){
+                $data = array();
+                $vCriteria=new CDbCriteria;
+                foreach($favourite as $key=>$val){
+                    //$data['id_favourite'] = $val['id_favourite'];
+
+                    $vCriteria->condition = 'id_voucher = ' .$val['fk_voucher'];
+
+                    $voucher = Voucher::model()->find($vCriteria);
+
+                    $briefData = $voucher->getBrief();
+
+                    $briefData['id_favourite'] = $val['id_favourite'];
+
+                    $data[] = $briefData;
+                }
+            }
+            $result = true;
+        }
+        $this->_sendResponse(array(
+            'data'      => $data,
+            'status'    => $result
+        ));
+
+    }
+
+
+
     /***
      * Delete favourite vouchers
      */
