@@ -8,17 +8,9 @@
  * @property string $company
  * @property string $fk_user
  * @property string $fk_category
- * @property double $lag
- * @property double $lng
- * @property string $address1
- * @property string $address2
- * @property integer $postcode
- * @property string $phone
- * @property string $fax
  * @property string $website
  * @property string $logo
  * @property string $term_condition
- * @property string $geohash
  * @property string $created_at
  * @property string $updated_at
  */
@@ -49,18 +41,14 @@ class Merchant extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('company, fk_user, fk_category, address1, phone', 'required'),
-			array('postcode', 'numerical', 'integerOnly'=>true),
-			array('lat, lng', 'numerical'),
+			array('company, fk_user, fk_category', 'required'),
 			array('company', 'length', 'max'=>256),
 			array('fk_user', 'length', 'max'=>20),
-			array('address1, address2', 'length', 'max'=>1024),
-			array('phone, fax', 'length', 'max'=>32),
 			array('website, logo', 'length', 'max'=>128),
-			array('term_condition, geohash', 'safe'),
+			array('term_condition', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id_merchant, company, fk_user, lat, lng, address1, address2, postcode, phone, fax, website, logo, term_condition, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id_merchant, company, fk_user, website, logo, term_condition, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -73,6 +61,7 @@ class Merchant extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'fk_user0' => array(self::BELONGS_TO, 'Users', 'fk_user'),
+            'address' => array(self::HAS_MANY, 'Address', 'fk_merchant'),
 		);
 	}
 
@@ -86,17 +75,9 @@ class Merchant extends CActiveRecord
 			'company' => 'Company',
 			'fk_user' => 'Fk User',
             'fk_category' => 'FK Category',
-			'lat' => 'Lat',
-			'lng' => 'Lng',
-			'address1' => 'Address1',
-			'address2' => 'Address2',
-			'postcode' => 'Postcode',
-			'phone' => 'Phone',
-			'fax' => 'Fax',
 			'website' => 'Website',
 			'logo' => 'Logo',
 			'term_condition' => 'Term Condition',
-            'geohash' => 'Geohash',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -121,20 +102,6 @@ class Merchant extends CActiveRecord
 
         $criteria->compare('fk_category',$this->fk_category,true);
 
-		$criteria->compare('lat',$this->lat);
-
-		$criteria->compare('lng',$this->lng);
-
-		$criteria->compare('address1',$this->address1,true);
-
-		$criteria->compare('address2',$this->address2,true);
-
-		$criteria->compare('postcode',$this->postcode);
-
-		$criteria->compare('phone',$this->phone,true);
-
-		$criteria->compare('fax',$this->fax,true);
-
 		$criteria->compare('website',$this->website,true);
 
 		$criteria->compare('logo',$this->logo,true);
@@ -144,8 +111,6 @@ class Merchant extends CActiveRecord
 		$criteria->compare('created_at',$this->created_at,true);
 
 		$criteria->compare('updated_at',$this->updated_at,true);
-
-        $criteria->compare('geohash',$this->geohash,true);
 
 		return new CActiveDataProvider('Merchant', array(
 			'criteria'=>$criteria,
@@ -169,8 +134,8 @@ class Merchant extends CActiveRecord
     public function save($runValidation = true, $attributes = NULL)
     {
         //calculate the geohash
-        $geohash=new Geohash;
-        $this->geohash = $geohash->encode($this->lat, $this->lng);
+//        $geohash=new Geohash;
+//        $this->geohash = $geohash->encode($this->lat, $this->lng);
         $merchant = parent::save($runValidation, $attributes);
         //update session
         if($merchant){
@@ -184,12 +149,19 @@ class Merchant extends CActiveRecord
 
     public function getData4Voucher()
     {
-        return array(
+        $addresses = $this->address;
+        $data = array(
             'id_merchant'           =>          $this->id_merchant,
             'company'               =>          $this->company,
             'logo'                  =>          $this->logo,
-            'lat'                   =>          $this->lat,
-            'lng'                   =>          $this->lng
         );
+        foreach($addresses as $address){
+            $data['address'][] = array(
+                'lat'   =>  $address->lat,
+                'lng'   =>  $address->lng
+            );
+        }
+
+        return $data;
     }
 }

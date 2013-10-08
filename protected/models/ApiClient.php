@@ -12,7 +12,9 @@ class ApiClient
 
 
 
-
+    /***
+     * Methods
+     */
     const HTTP_METHOD_POST = 'POST';
 
     const HTTP_METHOD_GET = 'GET';
@@ -22,9 +24,20 @@ class ApiClient
     const HTTP_METHOD_PUT = 'PUT';
 
 
+
+    /***
+     * Const
+     */
+
     const API_METHOD_LOGIN = 'LOGIN';
 
     const API_METHOD_LOGOUT = 'LOGOUT';
+
+    const API_MODIFY_NORMAL_PROFILE = 'PROFILE_NORMAL';
+
+    const API_MODIFY_PASSWORD_PROFILE = 'PROFILE_PASSWORD';
+
+    const API_METHOD_GETPROFILE = 'PROFILE';
 
     const API_ADDFAVOURITE_VOUCHER = 'ADD_VOUCHER';
 
@@ -44,12 +57,16 @@ class ApiClient
     protected $apiMethodsMapping = array(
         self::API_METHOD_LOGOUT  => array(self::HTTP_METHOD_DELETE, true),
         self::API_METHOD_LOGIN  => array(self::HTTP_METHOD_POST, false),
+        self::API_METHOD_GETPROFILE => array(self::HTTP_METHOD_GET, false),
         //收藏voucher
         self::API_ADDFAVOURITE_VOUCHER => array(self::HTTP_METHOD_POST, true),
         self::API_REMOVEFAVOURITE_VOUCHER => array(self::HTTP_METHOD_DELETE, true),
         self::API_GETFAVOURITE_VOUCHER => array(self::HTTP_METHOD_GET, true),
         //检查版本
         self::API_CHECKVERSION => array(self::HTTP_METHOD_GET, false),
+        //修改用户信息
+        self::API_MODIFY_NORMAL_PROFILE => array(self::HTTP_METHOD_PUT, true),
+        self::API_MODIFY_PASSWORD_PROFILE => array(self::HTTP_METHOD_PUT, true)
     );
 
 
@@ -76,6 +93,22 @@ class ApiClient
             curl_setopt ($ch, CURLOPT_POSTFIELDS, $data);
         }else if($method == self::HTTP_METHOD_GET){     //如果是get方法，附加参数
             if($data) $url .= '?' . http_build_query($data);
+        }else if($method == self::HTTP_METHOD_PUT){
+            $body = http_build_query($data);
+
+            $fp = fopen('php://temp/maxmemory:256000', 'w');
+            if (!$fp) {
+                die('could not open temp memory data');
+            }
+            fwrite($fp, $body);
+            fseek($fp, 0);
+
+            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);
+            curl_setopt($ch, CURLOPT_PUT, true);
+            curl_setopt($ch, CURLOPT_INFILE, $fp); // file pointer
+            curl_setopt($ch, CURLOPT_INFILESIZE, strlen($body));
+
+
         }
 
         $header = array();
@@ -108,13 +141,17 @@ class ApiClient
             throw new Exception("Empty response.");
         }
 
-//        var_dump($result);
+//        echo($result);die('ok');
 
 //        Yii::log("--------" .date('Y-m-d H:i:s') ."-------\n",'info', 'application.*');
 
 //        Yii::log($result,'info');
 //
 //        Yii::log("----------------\n",'info');
+
+        if($method == self::HTTP_METHOD_PUT){
+            fclose($fp);
+        }
 
         return CJSON::decode($result);
 
@@ -133,10 +170,10 @@ class ApiClient
     protected function callApi($apiName, $url, $data = null)
     {
         $apiName = strtoupper($apiName);
+
         if(isset($this->apiMethodsMapping[$apiName])){
 
             $url = '/api/v1/' .$url;
-
             return $this->sendRequest($url, $apiName, $data);
         }else{
             throw new Exception('Method ' .$apiName .' not support!');
@@ -178,6 +215,33 @@ class ApiClient
         return $this->callApi(self::API_METHOD_LOGOUT, 'login/' .$userId, null);
     }
 
+
+
+
+    /***
+     * Get User Profile
+     *
+     * @param $userId
+     * @return mixed
+     */
+    public function getProfile($userId)
+    {
+        return $this->callApi(self::API_METHOD_GETPROFILE, 'user/' .$userId);
+    }
+
+
+
+    /***
+     * Change the profile, normal
+     *
+     * @param $userId
+     * @param array $profile
+     * @return mixed
+     */
+    public function changeNormal($userId, array $profile)
+    {
+        return $this->callApi(self::API_MODIFY_NORMAL_PROFILE, 'user/' .$userId, $profile);
+    }
 
 
     /***

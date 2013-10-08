@@ -49,6 +49,7 @@ class ApiController extends CController
      */
     protected $protectedActions = array(
         'login'     =>  array('delete'),
+        'user'      =>  array('update'),
         'voucher'   =>  array(),
         'favourite' =>  array('create', 'delete', 'list')
     );
@@ -177,8 +178,8 @@ class ApiController extends CController
         $controller = $this->getParam('controller');
         $association = $this->getParam('association');
 
-        Yii::app()->attachEventHandler('onException',array($this,'handleError'));
-        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
+//        Yii::app()->attachEventHandler('onException',array($this,'handleError'));
+//        Yii::app()->attachEventHandler('onError',array($this,'handleError'));
 
         $instance = null;
 
@@ -323,6 +324,15 @@ class ApiController extends CController
                 $value = $_COOKIE[$key];
             } elseif (isset($_SERVER[$key])) {
                 $value = $_SERVER[$key];
+            }
+            else{
+                if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+                    parse_str(file_get_contents("php://input"),$put_vars);
+                    if(!empty($put_vars)) $_REQUEST = array_merge($_REQUEST, $put_vars);
+                    if(isset($_REQUEST[$key])){
+                        $value = $_REQUEST[$key];
+                    }
+                }
             }
         }
 

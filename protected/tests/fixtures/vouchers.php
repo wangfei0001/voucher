@@ -27,7 +27,7 @@ return array(
     'voucher3'=>array(
         'id_voucher' => 3,
         'name' => '所有服饰50%off，新年特价',
-        'fk_merchant' => '1',
+        'fk_merchant' => '8',
         'term_condition' => '',
         'start_time' => '2013-07-01 00:00:00',
         'end_time' => '2013-07-31 00:00:00',
@@ -49,7 +49,7 @@ return array(
     'voucher5'=>array(
         'id_voucher' => 5,
         'name' => '今天发布的优惠哦',
-        'fk_merchant' => '2',
+        'fk_merchant' => '9',
         'term_condition' => '',
         'start_time' => '2013-07-02 00:00:00',
         'end_time' => '2013-07-11 00:00:00',

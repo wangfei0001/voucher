@@ -17,6 +17,25 @@ class SettingController extends Controller
 
         $this->selectedMenu = 'store';
 
+
+
+        //get address
+        $addresses = Address::model()->findAll('fk_merchant = :fk_merchant', array('fk_merchant' => Yii::app()->user->merchant['id_merchant']));
+        $data = array();
+        if($addresses){
+            foreach($addresses as $address){
+                //'id'=>1, 'address1'=>'Mark', 'phone'=>'Otto', 'fax'=>'CSS', 'postcode'=>2000
+                $data[] = array(
+                    'id'        =>      $address->id_address,
+                    'address1'  =>      $address->address1,
+                    'phone'     =>      $address->phone,
+                    'fax'       =>      $address->fax,
+                    'lat'       =>      $address->lat,
+                    'lng'       =>      $address->lng,
+                    'postcode'  =>      $address->postcode
+                );
+            }
+        }
         $model = new MerchantForm();
 
         if(isset($_POST['MerchantForm'])){
@@ -34,11 +53,52 @@ class SettingController extends Controller
         }
 
 
+        $addrModel = new AddressForm();
+
         $this->render('store', array('model' => $model,
-            'categories' => Category::getAllForDropdown()
+            'categories' => Category::getAllForDropdown(),
+            'addresses' => $data,
+            'addrModel' => $addrModel
         ));
     }
 
+
+
+    /***
+     * save address for the merchant
+     */
+    public function actionSaveAddress()
+    {
+        $model = new AddressForm();
+        if(Yii::app()->request->isAjaxRequest && isset($_POST['AddressForm'])){
+            $result = false;
+
+            $model->attributes=$_POST['AddressForm'];
+
+            //get merchant id
+            $model->fk_merchant = Yii::app()->user->merchant['id_merchant'];
+
+            if($model->validate()){
+                $result = $model->save();
+            }/*else{
+                var_dump($model->getErrors());
+            }*/
+
+            echo CJSON::encode(array(
+                'status'    =>      $result,
+                'message'   =>      null,
+                'data'      =>      $result?array(
+                    'id'        =>      $model->id_address,
+                    'address1'  =>      $model->address1,
+                    'phone'     =>      $model->phone,
+                    'fax'       =>      $model->fax,
+                    'lat'       =>      $model->lat,
+                    'lng'       =>      $model->lng,
+                    'postcode'  =>      $model->postcode
+                ):null
+            ));
+        }
+    }
 
 
     public function actionProfile()

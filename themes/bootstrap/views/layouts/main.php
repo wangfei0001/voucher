@@ -11,7 +11,7 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
     <script type="text/javascript"
-            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCaCpSc7PTHh-q_qFcuarCbKlTGHYQ76q0&sensor=false">
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCaCpSc7PTHh-q_qFcuarCbKlTGHYQ76q0&sensor=false&language=zh-CN">
     </script>
 
 	<?php Yii::app()->bootstrap->register(); ?>

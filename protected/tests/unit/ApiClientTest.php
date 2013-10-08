@@ -133,29 +133,77 @@ class ApiClientTest extends CDbTestCase
 //    }
 
 
-    public function testGetFavourites()
-    {
+//    public function testGetFavourites()
+//    {
+//
+//        $mustHave = array('name', 'id_favourite', 'id_voucher', 'merchant');
+//
+//        $key = $this->userskey['key1'];
+//
+//        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+//
+//        $json = $this->apiClient->getFavouriteVouchers();
+//
+//        $this->assertTrue(is_array($json));
+//
+//        $this->assertEquals($json['status'], true);
+//
+//        $data = $json['data'];
+//
+//        $this->assertTrue(is_array($data) && count($data) == 1);
+//
+//        foreach($data as $voucher){
+//            foreach($mustHave as $val){
+//                $this->assertTrue(isset($voucher[$val]), 'Variable ' .$val .' not set');
+//            }
+//        }
+//    }
 
-        $mustHave = array('name', 'id_favourite', 'id_voucher', 'merchant');
+//    public function testGetProfile()
+//    {
+//        $mustHave = array('username', 'email', 'fname', 'lname');
+//
+//        $json = $this->apiClient->getProfile($this->users['user1']['id_user']);
+//
+//        $this->assertTrue(is_array($json));
+//
+//        $this->assertEquals($json['status'], true);
+//
+//        $data = $json['data'];
+//
+//        $this->assertTrue(is_array($data));
+//
+//        foreach($mustHave as $val){
+//            $this->assertTrue(isset($json['data'][$val]), 'Variable ' .$val .' not set');
+//        }
+//
+//    }
+
+    public function testModifyNormalProfile()
+    {
+        $user = $this->users['user1'];
+
+        $data = array(
+            'username'  =>  $user['username'],
+            'email'     =>  $user['email'],
+            'fname'     =>  $user['fname'],
+            'lname'     =>  $user['lname'],
+            'type'      =>  'normal'
+        );
 
         $key = $this->userskey['key1'];
 
         $this->apiClient->setKeys($key['public_key'], $key['private_key']);
 
-        $json = $this->apiClient->getFavouriteVouchers();
+        $json = $this->apiClient->changeNormal($user['id_user'], $data);
 
         $this->assertTrue(is_array($json));
 
         $this->assertEquals($json['status'], true);
+    }
 
-        $data = $json['data'];
+    public function testModifyPasswordProfile()
+    {
 
-        $this->assertTrue(is_array($data) && count($data) == 1);
-
-        foreach($data as $voucher){
-            foreach($mustHave as $val){
-                $this->assertTrue(isset($voucher[$val]), 'Variable ' .$val .' not set');
-            }
-        }
     }
 }

@@ -170,8 +170,20 @@ class Voucher extends CActiveRecord
             $criteria->condition = 't.created_at <= "' .$param['time'] .'" and id_voucher < ' .$param['id'];
         }
 
-        $rows = self::model()->findAll($criteria);
+        if(isset($param['search'])){
+            if(!empty($criteria->condition)) $criteria->condition .= ' and ';
+            $criteria->condition .= 't.name like "%' .$param['search'] .'%"';
+        }
 
+        if(isset($param['id_category'])){
+            if(!empty($criteria->condition)) $criteria->condition .= ' and ';
+            //check merchant
+            $criteria->with = array('merchant');
+
+            $criteria->condition .= 'merchant.fk_category = ' .$param['id_category'];
+        }
+
+        $rows = self::model()->findAll($criteria);
         if($rows){
             foreach($rows as $val){
                 $return[] = $val->getBrief();
