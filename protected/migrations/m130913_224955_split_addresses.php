@@ -30,6 +30,16 @@ class m130913_224955_split_addresses extends CDbMigration
               updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
               PRIMARY KEY (id_address)
             ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+            ALTER TABLE  `vouchers` ADD  `click_total` INT NOT NULL DEFAULT  '0' COMMENT  '点击次数' AFTER  `featured` ;
+            ALTER TABLE  `addresses` ADD  `name` VARCHAR( 128 ) NOT NULL AFTER  `fk_merchant` ;
+            ALTER TABLE  `addresses` CHANGE  `name`  `name` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL ;
+            CREATE TABLE IF NOT EXISTS `voucher_address` (
+              `id_voucher_address` bigint(20) NOT NULL AUTO_INCREMENT,
+              `fk_voucher` bigint(20) NOT NULL,
+              `fk_address` bigint(20) NOT NULL,
+              PRIMARY KEY (`id_voucher_address`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
         ");
 	}
 

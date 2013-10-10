@@ -155,12 +155,12 @@ class Merchant extends CActiveRecord
             'company'               =>          $this->company,
             'logo'                  =>          $this->logo,
         );
-        foreach($addresses as $address){
-            $data['address'][] = array(
-                'lat'   =>  $address->lat,
-                'lng'   =>  $address->lng
-            );
-        }
+//        foreach($addresses as $address){
+//            $data['address'][] = array(
+//                'lat'   =>  $address->lat,
+//                'lng'   =>  $address->lng
+//            );
+//        }
 
         return $data;
     }

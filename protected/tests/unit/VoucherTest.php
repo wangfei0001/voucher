@@ -19,6 +19,32 @@ class VoucherTest extends CDbTestCase
 
         $vouchers = Voucher::getAll($param);
 
-        var_dump(($vouchers));
+        $this->assertTrue(is_array($vouchers));
+
+        foreach($vouchers as $voucher){
+            $this->verifyVoucher($voucher);
+        }
+    }
+
+
+    /***
+     * Verify voucher
+     *
+     * @param $voucher
+     */
+    protected function verifyVoucher($voucher)
+    {
+        $mustHave = array('name', 'id_voucher', 'merchant');
+
+        $merchantMustHave = array('id_merchant', 'company');
+
+        foreach($mustHave as $val){
+            $this->assertTrue(isset($voucher[$val]), 'Variable ' .$val .' not set');
+            if($val == 'merchant'){
+                foreach($merchantMustHave as $val2){
+                    $this->assertTrue(isset($voucher[$val][$val2]), 'Variable ' .$val2 .' not set');
+                }
+            }
+        }
     }
 }

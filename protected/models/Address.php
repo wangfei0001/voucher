@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'addresses':
  * @property string $id_address
  * @property string $fk_merchant
+ * @property string $name
  * @property string $address1
  * @property string $address2
  * @property double $lat
@@ -49,9 +50,10 @@ class Address extends CActiveRecord
 			array('address1, address2', 'length', 'max'=>255),
 			array('postcode, phone', 'length', 'max'=>16),
 			array('geohash', 'length', 'max'=>128),
+            array('name','safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id_address, fk_merchant, address1, address2, lat, lng, postcode, phone, fax, geohash', 'safe', 'on'=>'search'),
+			array('name, id_address, fk_merchant, address1, address2, lat, lng, postcode, phone, fax, geohash', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -74,6 +76,7 @@ class Address extends CActiveRecord
 		return array(
 			'id_address' => 'Id Address',
 			'fk_merchant' => 'Fk Merchant',
+            'name'  =>  'Name',
 			'address1' => 'Address1',
 			'address2' => 'Address2',
 			'lat' => 'Lat',
@@ -99,6 +102,8 @@ class Address extends CActiveRecord
 		$criteria->compare('id_address',$this->id_address,true);
 
 		$criteria->compare('fk_merchant',$this->fk_merchant,true);
+
+        $criteria->compare('name',$this->name,true);
 
 		$criteria->compare('address1',$this->address1,true);
 

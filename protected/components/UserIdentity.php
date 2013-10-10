@@ -33,17 +33,20 @@ class UserIdentity extends CUserIdentity
             }else{
                 $this->errorCode=self::ERROR_NONE;
 
-
                 //check if the merchant information is completed
                 if($user->getIsMerchant()){
                     $this->checkMerchantInforCompleted($user->id_user);
+                }else{  //非商家不允许登录
+
+                    $this->errorCode = self::ERROR_USERNAME_INVALID;
+                    return false;
                 }
                 $this->_id = $user->id_user;
 
                 return true;
             }
         }else{
-            $this->errorCode=self::ERROR_USERNAME_INVALID;
+            $this->errorCode = self::ERROR_USERNAME_INVALID;
         }
 
 
@@ -64,16 +67,15 @@ class UserIdentity extends CUserIdentity
     {
         $completed = false;
 
-        $merchant = Merchant::model()->find('fk_user = :id_user', array('id_user'=>$id_user));
+        $merchant = Merchant::model()->with('address')->find('fk_user = :id_user', array('id_user'=>$id_user));
 
         if($merchant){
+
             if(!empty($merchant->company)
-                && !empty($merchant->address1)
-                && !empty($merchant->phone)
+                && !empty($merchant->address)
 
                 ){
                 $this->setState('merchantCompleted', true);
-
                 $completed = true;
             }
             $this->setState('merchant', $merchant->attributes);

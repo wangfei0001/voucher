@@ -12,6 +12,8 @@ class AddressForm extends CFormModel
 
     public $fk_merchant;
 
+    public $name;
+
     public $address1;
 
     public $address2;
@@ -36,8 +38,8 @@ class AddressForm extends CFormModel
     {
         return array(
             // name, email, subject and body are required
-            array('address1, postcode, lat, lng', 'required'),
-            array('phone,fax,id_address','safe')
+            array('address1, postcode, lat, lng, phone', 'required'),
+            array('phone,fax,id_address,name','safe')
         );
     }
 
@@ -49,6 +51,7 @@ class AddressForm extends CFormModel
     public function attributeLabels()
     {
         return array(
+            'name'  =>  '店铺名称',
             'address1'=>'详细地址',
             'postcode'=>'邮编',
             'phone'=>'电话',
@@ -83,9 +86,14 @@ class AddressForm extends CFormModel
             $address->id_address = $this->id_address;
 
             $address->isNewRecord = false;
+        }else{
+            $address->isNewRecord = true;
         }
 
-
-        return $address->save();
+        $result = $address->save();
+        if(!$result){
+            $this->addErrors( $address->getErrors() );
+        }
+        return $result;
     }
 }

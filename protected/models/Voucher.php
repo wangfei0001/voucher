@@ -11,8 +11,11 @@
  * @property string $start_time
  * @property string $end_time
  * @property integer $reusable
+ * @property integer $reuse_total
+ * @property integer $reuse_left
  * @property integer $status
  * @property integer $featured
+ * @property string $click_total
  * @property string $created_at
  * @property string $updated_at
  */
@@ -93,6 +96,7 @@ class Voucher extends CActiveRecord
 			'reusable' => 'Reusable',
             'status'   =>   'status',
             'featured'  =>  'featured',
+            'click_total' => 'Click Total',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -126,6 +130,8 @@ class Voucher extends CActiveRecord
         $criteria->compare('status',$this->status);
 
         $criteria->compare('featured',$this->featured);
+
+        $criteria->compare('click_total',$this->click_total);
 
 		$criteria->compare('created_at',$this->created_at,true);
 
@@ -198,8 +204,36 @@ class Voucher extends CActiveRecord
         return array(
             'name'  =>  $this->name,
             'id_voucher' => $this->id_voucher,
-            'merchant' => $this->merchant->getData4Voucher()
+            'merchant' => $this->merchant->getData4Voucher(),
+            'addresses' => $this->getAddresses()
         );
+    }
+
+
+    /***
+     * Get Address list for voucher
+     *
+     * @return array
+     */
+    public function getAddresses()
+    {
+        $addresses = array();
+        $rows = VoucherAddress::model()->with('address')->findAll('fk_voucher = ' .$this->id_voucher);
+
+        if($rows){
+            foreach($rows as $row){
+                $address = $row->address;
+                $addresses[] = array(
+                    'lat'   =>  $address->lat,
+                    'lng'   =>  $address->lng,
+                    'name'  =>  $address->name,
+                    'address'   =>  $address->address1,
+                    'phone' =>  $address->phone,
+                    'fax'   =>  $address->fax
+                );
+            }
+        }
+        return $addresses;
     }
 
 

@@ -24,9 +24,9 @@ class SettingController extends Controller
         $data = array();
         if($addresses){
             foreach($addresses as $address){
-                //'id'=>1, 'address1'=>'Mark', 'phone'=>'Otto', 'fax'=>'CSS', 'postcode'=>2000
                 $data[] = array(
                     'id'        =>      $address->id_address,
+                    'name'      =>      $address->name,
                     'address1'  =>      $address->address1,
                     'phone'     =>      $address->phone,
                     'fax'       =>      $address->fax,
@@ -36,6 +36,7 @@ class SettingController extends Controller
                 );
             }
         }
+
         $model = new MerchantForm();
 
         if(isset($_POST['MerchantForm'])){
@@ -78,24 +79,25 @@ class SettingController extends Controller
             //get merchant id
             $model->fk_merchant = Yii::app()->user->merchant['id_merchant'];
 
+
             if($model->validate()){
                 $result = $model->save();
-            }/*else{
-                var_dump($model->getErrors());
-            }*/
+            }
 
             echo CJSON::encode(array(
                 'status'    =>      $result,
                 'message'   =>      null,
                 'data'      =>      $result?array(
                     'id'        =>      $model->id_address,
+                    'name'      =>      $model->name,
                     'address1'  =>      $model->address1,
                     'phone'     =>      $model->phone,
                     'fax'       =>      $model->fax,
                     'lat'       =>      $model->lat,
                     'lng'       =>      $model->lng,
                     'postcode'  =>      $model->postcode
-                ):null
+                ):null,
+                'errors'    =>      $result?null : $model->getErrors()
             ));
         }
     }

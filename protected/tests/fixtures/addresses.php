@@ -28,6 +28,7 @@ return array(
     'address1' =>  array(
         'id_address'  => 1,
         'fk_merchant' => '1',
+        'name' => '商店1',
         'lat' => '29.708000',
         'lng' => '118.304001',
         'address1' => '59 Old Street, Tunxi, Huangshan, Anhui, China, 245000',
@@ -42,6 +43,7 @@ return array(
     'address2' =>  array(
         'id_address'  => 2,
         'fk_merchant' => '2',
+        'name' => '商店2',
         'lat' => '29.709999',
         'lng' => '118.314003',
         'address1' => '3 Huangshan West Road, Tunxi, Huangshan, Anhui, China, 245000',
@@ -56,6 +58,7 @@ return array(
     'address3' =>  array(
         'id_address'  => 3,
         'fk_merchant' => '3',
+        'name' => '商店3',
         'lat' => '29.709000',
         'lng' => '118.311996',
         'address1' => '285号-311 Old Street, Tunxi, Huangshan, Anhui, China, 245000',
@@ -70,6 +73,7 @@ return array(
     'address4' =>  array(
         'id_address'  => 4,
         'fk_merchant' => '4',
+        'name' => '商店4',
         'lat' => '29.707001',
         'lng' => '118.319000',
         'address1' => '18号-30 Changgan West Road, Tunxi, Huangshan, Anhui, China, 245000',
@@ -84,6 +88,7 @@ return array(
     'address5' =>  array(
         'id_address'  => 5,
         'fk_merchant' => '5',
+        'name' => '商店5',
         'lat' => '29.708000',
         'lng' => '118.327003',
         'address1' => '100 Changgan Middle Road, Tunxi, Huangshan, Anhui, China, 245000',
@@ -98,6 +103,7 @@ return array(
     'address6' =>  array(
         'id_address'  => 6,
         'fk_merchant' => '6',
+        'name' => '商店6',
         'lat' => '29.709225',
         'lng' => '118.307617',
         'address1' => '58 Yan\'an Road, Tunxi, Huangshan, Anhui, China, 245000',
@@ -112,6 +118,7 @@ return array(
     'address9' =>  array(
         'id_address'  => 9,
         'fk_merchant' => '9',
+        'name' => '商店9',
         'lat' => '-33.856327',
         'lng' => '151.208654',
         'address1' => 'Upper Level, Overseas Passenger Terminal/5 Hickson Road',
@@ -126,6 +133,7 @@ return array(
     'address8' =>  array(
         'id_address'  => 8,
         'fk_merchant' => '8',
+        'name' => '商店8',
         'lat' => '-33.879152',
         'lng' => '151.204830',
         'address1' => 'Level 1/421 - 429 Sussex Street Haymarket',
