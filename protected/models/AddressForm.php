@@ -94,6 +94,8 @@ class AddressForm extends CFormModel
         if(!$result){
             $this->addErrors( $address->getErrors() );
         }
+        $this->id_address = $address->id_address;
+
         return $result;
     }
 }

@@ -11,6 +11,14 @@ class SettingController extends Controller
     public $layout = 'column2';
 
 
+    public function init()
+    {
+        if(Yii::app()->user->isGuest){
+            $this->setFlash('warning','没有权限操作，请先登录');
+            $this->redirect('/account/login');
+        }
+    }
+
     public function actionStore()
     {
         $this->breadcrumbs = array('商铺信息');
@@ -65,6 +73,40 @@ class SettingController extends Controller
 
 
 
+
+    /***
+     * Delete address
+     */
+    public function actionDeleteAddress()
+    {
+        if(Yii::app()->request->isAjaxRequest){
+            $id = $this->getParam('id');
+
+            $response = array(
+                'status'    =>      false,
+                'message'   =>      null,
+            );
+
+            $address = Address::model()->with('merchant')->find('id_address = ' .$id);
+
+            if($address->merchant->id_merchant == Yii::app()->user->merchant['id_merchant']){
+                //check if we already have vouchers for this address
+                if($address->hasVouchers()){
+                    $response['message'] = '此地址已经被使用，无法删除';
+                }else{
+
+                    $result = $address->delete();
+
+                    $response['status'] = $result;
+                }
+            }else{
+                $response['message'] = '您没有权限删除此地址';
+            }
+            echo CJSON::encode($response);
+        }
+    }
+
+
     /***
      * save address for the merchant
      */
@@ -103,6 +145,32 @@ class SettingController extends Controller
     }
 
 
+
+//    public function actionChangepwd()
+//    {
+//        $oldpassword = $this->getParam('oldpassword');
+//        $password = $this->getParam('password');
+//
+//        $pwdModel = new PasswordForm();
+//
+//        if(isset($_POST['PasswordForm'])){
+//            $pwdModel->attributes = $_POST['PasswordForm'];
+//
+//            if($pwdModel->Validate()){
+//                var_dump(Yii::app()->user);
+//                die('fuck');
+//
+//            }
+//        }
+//        $this->render('profile', array(
+//            'pwdModel' => $pwdModel
+//        ));
+//    }
+
+
+    /***
+     *
+     */
     public function actionProfile()
     {
         $this->selectedMenu = 'profile';
@@ -110,8 +178,7 @@ class SettingController extends Controller
 
         $model = new UserForm();
 
-
-
+        $pwdModel = new PasswordForm();
 
         if(isset($_POST['UserForm'])){
 
@@ -126,10 +193,28 @@ class SettingController extends Controller
 
             }
         }
+        if(isset($_POST['PasswordForm'])){
+            $pwdModel->attributes = $_POST['PasswordForm'];
+
+            if($pwdModel->Validate()){
+
+
+//                if($pwdModel->save()){
+//                    $this->setFlash('success', '已经成功修改密码');
+//
+//                    $this->redirect('/account/index');
+//                }else{
+//                    $this->setFlash('error', '修改密码失败');
+//                }
+
+            }
+        }
 
         $model->load(Yii::app()->user->id);
 
-        $this->render('profile', array('model' => $model,
+        $this->render('profile', array(
+            'model' => $model,
+            'pwdModel' => $pwdModel,
             'genders'   =>  array(
                 '1' =>  '男',
                 '2' =>  '女'

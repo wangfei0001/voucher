@@ -28,6 +28,18 @@ class ApiClientTest extends CDbTestCase
     /***
      *
      */
+    public function testContact()
+    {
+
+        $json = $this->apiClient->contact('blah blah blah', '02-88888888');
+
+        $this->assertTrue(is_array($json) && $json['status'] == true);
+
+    }
+
+    /***
+     *
+     */
     public function testLogin()
     {
         $mustHave = array('public_key', 'private_key', 'id_user', 'username');
@@ -194,6 +206,8 @@ class ApiClientTest extends CDbTestCase
     {
 
     }
+
+
 
 
     /***

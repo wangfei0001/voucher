@@ -14,6 +14,11 @@ class VouchersController extends Controller
 
     public function init()
     {
+        if(Yii::app()->user->isGuest){
+            $this->setFlash('warning','没有权限操作，请先登录');
+            $this->redirect('/account/login');
+        }
+
         $this->selectedMenu = 'list';
 
         parent::init();

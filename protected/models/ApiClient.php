@@ -45,6 +45,8 @@ class ApiClient
 
     const API_GETFAVOURITE_VOUCHER = 'GET_VOUCHERS';
 
+    const API_METHOD_CONTACT = 'CONTACT';
+
 
     const API_CHECKVERSION = 'CHECK_VERSION';
 
@@ -66,7 +68,9 @@ class ApiClient
         self::API_CHECKVERSION => array(self::HTTP_METHOD_GET, false),
         //修改用户信息
         self::API_MODIFY_NORMAL_PROFILE => array(self::HTTP_METHOD_PUT, true),
-        self::API_MODIFY_PASSWORD_PROFILE => array(self::HTTP_METHOD_PUT, true)
+        self::API_MODIFY_PASSWORD_PROFILE => array(self::HTTP_METHOD_PUT, true),
+        //联系我们
+        self::API_METHOD_CONTACT => array(self::HTTP_METHOD_POST, false)
     );
 
 
@@ -215,6 +219,22 @@ class ApiClient
         return $this->callApi(self::API_METHOD_LOGOUT, 'login/' .$userId, null);
     }
 
+
+
+    /***
+     * Leave message to us
+     *
+     * @param $content
+     * @param $contact
+     * @return mixed
+     */
+    public function contact($content, $contact)
+    {
+        return $this->callApi(self::API_METHOD_CONTACT, 'contact', array(
+            'content'   =>  $content,
+            'contact_info'  =>  $contact
+        ));
+    }
 
 
 

@@ -71,6 +71,10 @@ class AccountController extends Controller
      */
     public function actionIndex()
     {
+        if(Yii::app()->user->isGuest){
+            $this->setFlash('warning','没有权限操作，请先登录');
+            $this->redirect('/account/login');
+        }
         $this->layout = 'column2';
 
         $this->selectedMenu = 'summary';

@@ -65,6 +65,7 @@ class Address extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+            'merchant' => array(self::BELONGS_TO, 'Merchant', 'fk_merchant'),
 		);
 	}
 
@@ -140,6 +141,12 @@ class Address extends CActiveRecord
         );
     }
 
+
+    /***
+     * @param bool $runValidation
+     * @param null $attributes
+     * @return mixed
+     */
     public function save($runValidation = true, $attributes = NULL)
     {
         //calculate the geohash
@@ -147,5 +154,18 @@ class Address extends CActiveRecord
         $this->geohash = $geohash->encode($this->lat, $this->lng);
 
         return parent::save($runValidation, $attributes);
+    }
+
+
+
+    /***
+     * has this address been used for vouchers?
+     *
+     * @return bool
+     */
+    public function hasVouchers()
+    {
+        $row = VoucherAddress::model()->find('fk_address = ' .$this->id_address);
+        return $row ? true : false;
     }
 }

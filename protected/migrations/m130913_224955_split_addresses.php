@@ -40,6 +40,22 @@ class m130913_224955_split_addresses extends CDbMigration
               `fk_address` bigint(20) NOT NULL,
               PRIMARY KEY (`id_voucher_address`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+            CREATE TABLE IF NOT EXISTS `ums` (
+              `id_ums` bigint(20) NOT NULL AUTO_INCREMENT,
+              `status` enum('init','pending','completed') COLLATE utf8_unicode_ci NOT NULL,
+              `params` text COLLATE utf8_unicode_ci NOT NULL,
+              `created_at` datetime NOT NULL,
+              `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+              PRIMARY KEY (`id_ums`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+            CREATE TABLE IF NOT EXISTS `contact` (
+              `id_contact` bigint(20) NOT NULL AUTO_INCREMENT,
+              `content` text COLLATE utf8_unicode_ci NOT NULL,
+              `contact_info` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'email,qq,phone number, everything.',
+              `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+              PRIMARY KEY (`id_contact`)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
         ");
 	}
 

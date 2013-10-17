@@ -9,6 +9,12 @@ return array(
 	// preloading 'log' component
 	'preload'=>array('log'),
 
+    // autoloading model and component classes
+//    'import'=>array(
+//        'application.models.*',
+//        'application.components.*',
+//    ),
+
 	// application components
 	'components'=>array(
 		// uncomment the following to use a MySQL database
