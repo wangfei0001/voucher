@@ -47,6 +47,8 @@ class ApiClient
 
     const API_METHOD_CONTACT = 'CONTACT';
 
+    const API_METHOD_REDEEM = 'REDEEM';
+
 
     const API_CHECKVERSION = 'CHECK_VERSION';
 
@@ -64,6 +66,10 @@ class ApiClient
         self::API_ADDFAVOURITE_VOUCHER => array(self::HTTP_METHOD_POST, true),
         self::API_REMOVEFAVOURITE_VOUCHER => array(self::HTTP_METHOD_DELETE, true),
         self::API_GETFAVOURITE_VOUCHER => array(self::HTTP_METHOD_GET, true),
+
+        //redeem voucher
+        self::API_METHOD_REDEEM => array(self::HTTP_METHOD_POST, true),
+
         //检查版本
         self::API_CHECKVERSION => array(self::HTTP_METHOD_GET, false),
         //修改用户信息
@@ -145,7 +151,8 @@ class ApiClient
             throw new Exception("Empty response.");
         }
 
-//        echo($result);die('ok');
+        echo($result);
+        //die('ok');
 
 //        Yii::log("--------" .date('Y-m-d H:i:s') ."-------\n",'info', 'application.*');
 
@@ -277,6 +284,10 @@ class ApiClient
     }
 
 
+    /***
+     * @param $id_favourite
+     * @return mixed
+     */
     public function removeFavourite($id_favourite)
     {
         return $this->callApi(self::API_REMOVEFAVOURITE_VOUCHER, 'favourite/' .$id_favourite, array(
@@ -284,6 +295,9 @@ class ApiClient
         ));
     }
 
+    /***
+     * @return mixed
+     */
     public function getFavouriteVouchers()
     {
         return $this->callApi(self::API_GETFAVOURITE_VOUCHER, 'favourite', array(
@@ -291,9 +305,27 @@ class ApiClient
         ));
     }
 
+    /***
+     * @param $curVer
+     * @return mixed
+     */
     public function checkVersion($curVer)
     {
         return $this->callApi(self::API_CHECKVERSION, 'version', array('curver'=>$curVer));
+    }
+
+
+    /***
+     * @param $id_voucher
+     * @param $id_user
+     * @return mixed
+     */
+    public function redeem($id_voucher, $id_user)
+    {
+        return $this->callApi(self::API_METHOD_REDEEM, 'redeem', array(
+            'id_voucher'    =>      $id_voucher,
+            'id_user'       =>      $id_user
+        ));
     }
 
 }

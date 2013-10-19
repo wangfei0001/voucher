@@ -24,6 +24,21 @@ class ApiClientTest extends CDbTestCase
         $this->apiClient = new ApiClient();
     }
 
+    public function testRedeem()
+    {
+        $voucher = $this->vouchers['voucher6'];
+
+        $user = $this->users['user1'];
+
+        $key = $this->userskey['key1'];
+
+        $this->apiClient->setKeys($key['public_key'], $key['private_key']);
+
+        $json = $this->apiClient->redeem($voucher['id_voucher'], $user['id_user']);
+
+        die();
+    }
+
 
     /***
      *
@@ -206,6 +221,9 @@ class ApiClientTest extends CDbTestCase
     {
 
     }
+
+
+
 
 
 

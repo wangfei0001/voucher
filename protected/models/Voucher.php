@@ -237,4 +237,70 @@ class Voucher extends CActiveRecord
     }
 
 
+    /***
+     * Check if the voucher expired
+     */
+    public function getIsExpired()
+    {
+        if($this->start_time && $this->end_time){
+            $start = strtotime($this->start_time);
+            $end = strtotime($this->end_time);
+
+            if(time() >= $start && time() <= $end){
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        throw new Exception('Invalid Start time and end time.');
+    }
+
+
+
+    /***
+     * Redeem the voucher
+     *
+     * @param $id_user
+     * @throws Exception
+     */
+    public function redeem($id_user)
+    {
+        if($this->getIsExpired()){
+            throw new Exception('该优惠券已经过期，无法继续使用！');
+        }
+
+        if($this->reusable){
+            throw new Exception('该优惠券可重复使用，不需要兑现！');
+        }
+
+        if($this->reuse_left < 1){
+            throw new Exception('已经达到最大使用次数，优惠券无效！');
+        }
+
+
+
+        //this voucher is ok to redeem
+        $redemption = new Redemption();
+
+        $redemption->fk_voucher = $this->id_voucher;
+
+        $redemption->fk_user = $id_user;
+
+        $redemption->status = Redemption::REDEMPTION_STATUS_INIT;
+
+        if($redemption->save()){
+
+            $this->reuse_left--;
+
+            $this->reuse_total++;
+
+            return $this->save();
+
+        }
+
+        return false;
+    }
+
+
 }

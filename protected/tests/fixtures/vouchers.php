@@ -8,7 +8,7 @@ return array(
 		'fk_merchant' => '1',
 		'term_condition' => '',
 		'start_time' => '2013-07-01 00:00:00',
-		'end_time' => '2013-07-31 00:00:00',
+		'end_time' => '2013-11-29 00:00:00',
 		'reusable' => '1',
 		'created_at' => '2013-07-14 00:00:00',
 		'updated_at' => '2013-07-18 10:52:52',
@@ -67,7 +67,7 @@ return array(
 2.一切解释权归本公司所有
 3.加糖另外收费',
         'start_time' => '2013-07-18 00:00:00',
-        'end_time' => '2013-09-30 00:00:00',
+        'end_time' => '2013-11-30 00:00:00',
         'reusable' => '0',
         'reuse_total' => '1000',
         'reuse_left' => 1000,
